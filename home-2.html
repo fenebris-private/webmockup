@@ -1,0 +1,2361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carne Shabu — Premium Wagyu Carne Seca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<style>
+/* ─── RESET & TOKENS ─── */
+:root {
+  --bg:      #0A0602;
+  --bg2:     #120C04;
+  --bg3:     #1C1208;
+  --cream:   #FAF7F2;
+  --cream2:  #E8DFD0;
+  --gold:    #C8962A;
+  --gold2:   #E2A832;
+  --rust:    #8B2E0F;
+  --muted:   rgba(250,247,242,.42);
+  --border:  rgba(255,255,255,.07);
+  --serif:   'Playfair Display', Georgia, serif;
+  --sans:    'Inter', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: auto; } /* Lenis handles scrolling */
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--cream);
+  overflow-x: hidden;
+  cursor: none;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: none; }
+
+/* ─── CUSTOM CURSOR ─── */
+#cursor {
+  position: fixed; z-index: 9999; pointer-events: none;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--gold);
+  transform: translate(-50%,-50%);
+  transition: width .2s, height .2s, background .2s;
+  mix-blend-mode: difference;
+}
+#cursor-ring {
+  position: fixed; z-index: 9998; pointer-events: none;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid rgba(200,150,42,.5);
+  transform: translate(-50%,-50%);
+}
+body.hovering #cursor { width: 52px; height: 52px; background: var(--gold2); }
+body.hovering #cursor-ring { opacity: 0; }
+
+/* ─── PRELOADER ─── */
+#preloader {
+  position: fixed; inset: 0; z-index: 9000;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 1.5rem;
+}
+.pre-wordmark {
+  font-family: var(--serif); font-size: clamp(2rem,6vw,4rem);
+  font-weight: 900; letter-spacing: -.02em; color: var(--cream);
+  overflow: hidden;
+}
+.pre-wordmark span { display: block; }
+.pre-bar {
+  width: 0; height: 2px; background: var(--gold);
+  border-radius: 999px;
+}
+
+/* ─── ANN BAR ─── */
+.ann-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  background: var(--gold); color: var(--bg);
+  text-align: center; padding: .5rem 1rem;
+  font-size: .76rem; font-weight: 700; letter-spacing: .05em;
+}
+.ann-bar a { text-decoration: underline; color: var(--bg); }
+
+/* ─── NAV ─── */
+.nav {
+  position: fixed; top: 33px; left: 0; right: 0; z-index: 200;
+  padding: 0 clamp(1.5rem,4vw,4rem);
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; height: 64px;
+  transition: background .4s, border-color .4s, top .3s;
+  border-bottom: 1px solid transparent;
+}
+.nav.solid {
+  background: rgba(10,6,2,.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-color: var(--border);
+}
+.nav.ann-hidden { top: 0; }
+
+/* Left: links */
+.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+.nav-links a { font-size: .825rem; font-weight: 500; color: rgba(250,247,242,.6); transition: color .2s; letter-spacing: .01em; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links .nl-cta {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: rgba(200,150,42,.15); border: 1px solid rgba(200,150,42,.35);
+  color: var(--gold); padding: .45rem 1.1rem; border-radius: 999px;
+  font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  transition: all .22s;
+}
+.nav-links .nl-cta:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+
+/* Center: logo */
+.nav-logo { font-family: var(--serif); font-size: 1.45rem; font-weight: 900; letter-spacing: -.02em; text-align: center; line-height: 1; }
+.nav-logo small { display: block; font-family: var(--sans); font-size: .38rem; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin-top: 3px; font-style: normal; }
+
+/* Right: actions */
+.nav-actions { display: flex; align-items: center; gap: .25rem; justify-content: flex-end; }
+.nav-btn { background: none; border: none; padding: .5rem; color: rgba(250,247,242,.65); display: flex; align-items: center; transition: color .2s; position: relative; }
+.nav-btn:hover { color: var(--gold); }
+.cart-bubble { position: absolute; top: 2px; right: 2px; background: var(--gold); color: var(--bg); width: 14px; height: 14px; border-radius: 50%; font-size: .55rem; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+
+/* Hamburger */
+.nav-ham {
+  display: none; background: none; border: none;
+  padding: .5rem; flex-direction: column; justify-content: center; gap: 5px;
+  width: 36px; height: 36px; align-items: center;
+}
+.ham-line { display: block; height: 1.5px; background: var(--cream); border-radius: 999px; transition: all .3s ease; }
+.ham-line:nth-child(1) { width: 20px; }
+.ham-line:nth-child(2) { width: 14px; align-self: flex-end; }
+.ham-line:nth-child(3) { width: 20px; }
+.nav-ham.open .ham-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); width: 20px; }
+.nav-ham.open .ham-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-ham.open .ham-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); width: 20px; }
+
+@media(max-width:760px){
+  .nav-links { display: none; }
+  .nav-ham { display: flex; }
+  .nav-actions .nav-btn:not(#cartBtn) { display: none; }
+}
+
+/* ─── MOBILE MENU ─── */
+#mobile-menu {
+  position: fixed; inset: 0; z-index: 195;
+  background: var(--bg2);
+  display: flex; flex-direction: column;
+  padding: 100px 2.5rem 3rem;
+  transform: translateX(100%);
+  transition: transform .48s cubic-bezier(.77,0,.175,1);
+  overflow-y: auto;
+}
+#mobile-menu.open { transform: translateX(0); }
+
+.mm-links { list-style: none; display: flex; flex-direction: column; margin-bottom: 2.5rem; }
+.mm-links li { border-bottom: 1px solid var(--border); }
+.mm-links a {
+  font-family: var(--serif); font-size: clamp(2rem,9vw,3rem); font-weight: 900;
+  color: rgba(250,247,242,.7); letter-spacing: -.02em; line-height: 1.1;
+  display: block; padding: .875rem 0; transition: color .2s, padding-left .25s;
+}
+.mm-links a:hover { color: var(--gold); padding-left: .5rem; }
+
+.mm-sub-links { list-style: none; display: flex; flex-direction: column; gap: .75rem; margin-bottom: 2.5rem; padding-top: .25rem; }
+.mm-sub-links a { font-size: .9375rem; font-weight: 500; color: var(--muted); transition: color .2s; display: flex; align-items: center; gap: .5rem; }
+.mm-sub-links a:hover { color: var(--gold); }
+.mm-sub-links a::before { content: '→'; font-size: .8rem; opacity: .5; }
+
+.mm-cta-btn {
+  display: flex; align-items: center; justify-content: center; gap: .75rem;
+  background: var(--gold); color: var(--bg); padding: 1.1rem;
+  border-radius: 8px; font-size: .8rem; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 2rem; transition: background .2s;
+}
+.mm-cta-btn:hover { background: var(--gold2); }
+
+.mm-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+.mm-social { display: flex; gap: .625rem; }
+.mm-soc { width: 38px; height: 38px; border-radius: 8px; background: var(--border); border: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all .2s; }
+.mm-soc:hover { background: var(--gold); color: var(--bg); }
+.mm-soc svg { width: 17px; height: 17px; }
+.mm-copy { font-size: .72rem; color: rgba(250,247,242,.2); }
+
+/* ─── HERO — full-screen cinematic ─── */
+.hero {
+  position: relative;
+  min-height: 100dvh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  padding-top: 97px; /* ann-bar 33px + nav 64px */
+}
+
+/* Full-bleed background */
+.hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg img {
+  width: 100%; height: 115%; /* extra height for parallax room */
+  object-fit: cover; object-position: center 30%;
+  filter: brightness(.35) saturate(1.3);
+  will-change: transform;
+}
+.hero-bg-overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(115deg, rgba(10,6,2,.98) 0%, rgba(10,6,2,.78) 45%, rgba(10,6,2,.35) 100%),
+    linear-gradient(to top, rgba(10,6,2,.95) 0%, transparent 55%);
+}
+
+/* Grain */
+.hero-grain {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: .045; mix-blend-mode: overlay;
+}
+
+/* Content row */
+.hero-row {
+  flex: 1;
+  display: flex; align-items: center;
+  max-width: 1280px; width: 100%; margin: 0 auto;
+  padding: 3rem clamp(1.5rem,4vw,4rem) 2rem;
+  gap: clamp(2.5rem,5vw,6rem);
+  position: relative; z-index: 2;
+}
+
+/* Left: text */
+.hero-l { flex: 0 0 52%; }
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 2rem; opacity: 0;
+  border: 1px solid rgba(200,150,42,.3);
+  padding: .38rem .9rem; border-radius: 999px;
+}
+.hero-eyebrow-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+
+/* Headline */
+.hero-title { margin-bottom: 1.625rem; }
+.ht-line { overflow: hidden; display: block; }
+.ht-word { display: block; transform: translateY(110%); }
+.ht-outline {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(5rem,10vw,10rem);
+  line-height: .82; letter-spacing: -.05em;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(250,247,242,.16);
+}
+.ht-main {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(2.75rem,5.5vw,5.75rem);
+  line-height: .92; letter-spacing: -.04em;
+  color: var(--cream);
+}
+.ht-em { color: var(--gold); font-style: italic; }
+
+/* Tagline */
+.hero-tagline {
+  font-size: clamp(.85rem,1.25vw,.95rem); color: var(--muted); line-height: 1.8;
+  max-width: 400px; margin-bottom: 2.25rem; opacity: 0;
+}
+
+/* CTAs — pill style */
+.hero-ctas { display: flex; align-items: center; gap: .875rem; margin-bottom: 2.5rem; opacity: 0; flex-wrap: wrap; }
+.btn-pill {
+  display: inline-flex; align-items: center; gap: .625rem;
+  font-family: var(--sans); font-size: .8rem; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase;
+  padding: .9rem 1.875rem; border-radius: 999px;
+  border: none; transition: all .25s; white-space: nowrap;
+}
+.btn-pill svg { width: 14px; height: 14px; flex-shrink: 0; transition: transform .2s; }
+.btn-pill:hover svg.arr { transform: translateX(4px); }
+.btn-pill-gold { background: var(--gold); color: var(--bg); }
+.btn-pill-gold:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(200,150,42,.35); }
+.btn-pill-outline { background: transparent; color: var(--cream); border: 1.5px solid rgba(250,247,242,.22); }
+.btn-pill-outline:hover { border-color: rgba(250,247,242,.55); background: rgba(250,247,242,.06); }
+
+/* Trust badge pills */
+.hero-trust { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; opacity: 0; }
+.trust-badge {
+  display: inline-flex; align-items: center; gap: .45rem;
+  background: rgba(250,247,242,.055);
+  border: 1px solid rgba(250,247,242,.1);
+  padding: .42rem .95rem; border-radius: 999px;
+  font-size: .68rem; font-weight: 600; color: rgba(250,247,242,.65);
+  white-space: nowrap;
+}
+.trust-badge-icon { font-size: .85rem; }
+
+/* Right: floating product card */
+.hero-r { flex: 1; display: flex; align-items: center; justify-content: center; }
+
+.hero-card {
+  background: rgba(14,9,3,.88);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 22px; overflow: hidden;
+  width: 100%; max-width: 370px;
+  box-shadow: 0 40px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(200,150,42,.1);
+  opacity: 0; transform: translateY(28px);
+}
+
+/* Card image area */
+.hc-img {
+  position: relative; height: 230px; overflow: hidden; background: var(--bg3);
+}
+.hc-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transition: all .5s ease;
+  display: block;
+}
+.hc-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,9,3,.65) 0%, transparent 55%); }
+
+/* Rating badge top-left */
+.hc-rating {
+  position: absolute; top: .875rem; left: .875rem; z-index: 3;
+  display: flex; align-items: center; gap: .4rem;
+  background: rgba(10,6,2,.75); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.12);
+  padding: .32rem .75rem; border-radius: 999px;
+  font-size: .65rem; font-weight: 700; color: var(--cream);
+}
+.hc-rating-stars { color: var(--gold); letter-spacing: .5px; }
+
+/* Flavor tabs bottom of image */
+.hc-tabs {
+  position: absolute; bottom: .75rem; left: .75rem; right: .75rem; z-index: 3;
+  display: flex; gap: .375rem;
+}
+.hct {
+  flex: 1; padding: .4rem .25rem; border-radius: 6px;
+  background: rgba(10,6,2,.72); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.1);
+  font-size: .58rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: rgba(250,247,242,.5); text-align: center; line-height: 1.3;
+  transition: all .22s; cursor: pointer;
+}
+.hct.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+.hct:hover:not(.active) { background: rgba(200,150,42,.18); color: rgba(250,247,242,.85); border-color: rgba(200,150,42,.3); }
+
+/* Card body */
+.hc-body { padding: 1.25rem 1.375rem 1.375rem; }
+.hcb-name {
+  font-family: var(--serif); font-size: 1.125rem; font-weight: 800;
+  color: var(--cream); line-height: 1.2; margin-bottom: .35rem;
+}
+.hcb-desc { font-size: .78rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.125rem; }
+.hcb-footer { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.hcb-price-wrap { display: flex; flex-direction: column; }
+.hcb-price { font-family: var(--serif); font-size: 1.5rem; font-weight: 900; color: var(--cream); line-height: 1; }
+.hcb-sub { display: flex; align-items: center; gap: .375rem; margin-top: .25rem; }
+.hcb-was { font-size: .78rem; color: var(--muted); text-decoration: line-through; }
+.hcb-save { font-size: .6rem; font-weight: 700; color: #4AC274; background: rgba(74,194,116,.12); padding: .18rem .5rem; border-radius: 999px; }
+.hcb-atc {
+  flex: 1; padding: .875rem 1rem; max-width: 160px;
+  background: var(--gold); color: var(--bg);
+  border: none; border-radius: 10px;
+  font-size: .75rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  transition: background .2s, transform .2s; white-space: nowrap;
+}
+.hcb-atc:hover { background: var(--gold2); transform: translateY(-2px); }
+
+/* Hero bottom rail */
+.hero-bottom {
+  position: relative; z-index: 2;
+  border-top: 1px solid rgba(255,255,255,.07);
+  display: flex; align-items: stretch; justify-content: center;
+  background: rgba(10,6,2,.6); backdrop-filter: blur(12px);
+  flex-wrap: wrap;
+}
+.hb-stat {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 1.125rem 2.5rem; border-right: 1px solid rgba(255,255,255,.06);
+  flex: 1; min-width: 100px;
+}
+.hb-stat:last-child { border-right: none; }
+.hb-n {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 900;
+  color: var(--gold); line-height: 1; margin-bottom: .2rem;
+}
+.hb-l { font-size: .6rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute; bottom: 5.5rem; left: clamp(1.5rem,4vw,4rem);
+  z-index: 5; display: flex; flex-direction: column; align-items: center; gap: .5rem;
+  font-size: .58rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(250,247,242,.3); opacity: 0;
+}
+.scroll-cue-line {
+  width: 1px; height: 44px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollCue 1.8s ease-in-out infinite;
+}
+@keyframes scrollCue { 0%,100%{transform:scaleY(1);transform-origin:top;} 50%{transform:scaleY(0);transform-origin:top;} }
+
+/* ─── SHARED BUTTONS (used in flavors section + reviews) ─── */
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--sans); font-size: .8rem; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase;
+  padding: .95rem 2rem; border: none; transition: all .25s; white-space: nowrap;
+}
+.btn svg { width: 14px; height: 14px; flex-shrink: 0; transition: transform .2s; }
+.btn:hover svg.arr { transform: translateX(4px); }
+.btn-gold { background: var(--gold); color: var(--bg); border-radius: 4px; }
+.btn-gold:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,150,42,.3); }
+.btn-ghost { background: transparent; color: var(--cream); border: 1.5px solid rgba(250,247,242,.2); border-radius: 4px; }
+.btn-ghost:hover { border-color: rgba(250,247,242,.5); background: rgba(250,247,242,.05); }
+.btn-lg { padding: 1.125rem 2.4rem; font-size: .85rem; }
+
+@media(max-width:900px){
+  .hero-row { flex-direction: column; padding-top: 2rem; padding-bottom: 1.5rem; gap: 2rem; }
+  .hero-l { flex: none; }
+  .hero-r { width: 100%; }
+  .hero-card { max-width: 100%; }
+}
+@media(max-width:540px){
+  .hero-ctas { flex-direction: column; align-items: flex-start; }
+  .hb-stat { padding: 1rem 1.25rem; }
+  .ht-outline { font-size: clamp(4rem,13vw,6rem); }
+  .ht-main { font-size: clamp(2.25rem,8vw,3.5rem); }
+}
+
+/* ─── DUAL MARQUEE ─── */
+.marquee-wrap {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden; padding: 0;
+}
+.marquee-track {
+  display: flex; width: max-content;
+  padding: 1rem 0;
+}
+.marquee-track.fwd  { animation: mq 26s linear infinite; }
+.marquee-track.rev  { animation: mq 26s linear infinite reverse; }
+.marquee-track + .marquee-track { border-top: 1px solid var(--border); }
+@keyframes mq { to { transform: translateX(-50%); } }
+.mq-item {
+  display: flex; align-items: center; gap: 0;
+  padding: .5rem 2.25rem; white-space: nowrap; flex-shrink: 0;
+  font-size: .72rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(250,247,242,.3);
+}
+.mq-item.gold { color: var(--gold); }
+.mq-sep { width: 4px; height: 4px; border-radius: 50%; background: var(--border); margin: 0 2rem; flex-shrink: 0; }
+
+/* ─── FLAVOR EXPLORER ─── */
+.flavors {
+  padding: clamp(5rem,9vw,9rem) 0 0;
+  background: var(--bg);
+}
+.section-eyebrow {
+  font-size: .68rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--gold); display: flex; align-items: center; gap: .75rem; margin-bottom: 1.25rem;
+}
+.section-eyebrow::before { content: ''; width: 24px; height: 1.5px; background: var(--gold); flex-shrink: 0; }
+.section-title {
+  font-family: var(--serif); font-size: clamp(2rem,4.5vw,4.5rem);
+  font-weight: 900; line-height: .95; letter-spacing: -.03em; color: var(--cream);
+  margin-bottom: .875rem;
+}
+.section-title em { color: var(--gold); font-style: italic; }
+.section-sub { font-size: .9375rem; color: var(--muted); line-height: 1.7; max-width: 480px; }
+.flavors-header { padding: 0 clamp(1.5rem,4vw,4rem); margin-bottom: 3.5rem; }
+
+/* Accordion explorer */
+.flavor-explorer {
+  display: flex; height: 72vh; min-height: 520px;
+  border-top: 1px solid var(--border);
+}
+.fp { /* flavor panel */
+  flex: 0 0 64px;
+  border-right: 1px solid var(--border);
+  position: relative; overflow: hidden; cursor: pointer;
+  transition: flex .65s cubic-bezier(.77,0,.175,1);
+}
+.fp:last-child { border-right: none; }
+.fp.open { flex: 1; cursor: default; }
+
+/* Per-flavor ambient glow */
+.fp[data-f="lemon"] { background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(200,150,42,.08) 0%, var(--bg) 100%); }
+.fp[data-f="spicy"] { background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(168,53,32,.12) 0%, var(--bg) 100%); }
+.fp[data-f="ghost"]   { background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(107,26,107,.12) 0%, var(--bg) 100%); }
+.fp[data-f="truffle"] { background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(80,55,15,.14) 0%, var(--bg) 100%); }
+
+/* Collapsed label (rotated) */
+.fp-label {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%) rotate(-90deg);
+  white-space: nowrap;
+  font-size: .68rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(250,247,242,.28);
+  transition: opacity .25s;
+  pointer-events: none;
+}
+.fp.open .fp-label { opacity: 0; }
+
+/* Expanded content */
+.fp-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  height: 100%; opacity: 0; pointer-events: none;
+  transition: opacity .35s .25s;
+}
+.fp.open .fp-inner { opacity: 1; pointer-events: auto; }
+
+/* Left: text */
+.fp-text {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 3.5rem 3rem 3.5rem clamp(2rem,4vw,4rem);
+}
+.fp-heat { display: flex; align-items: center; gap: .5rem; margin-bottom: 1.5rem; }
+.fp-heat span { font-size: .65rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+.heat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.heat-dot.on  { background: var(--gold); }
+.heat-dot.off { background: rgba(250,247,242,.12); }
+.fp-name {
+  font-family: var(--serif); font-size: clamp(1.75rem,3.5vw,3.25rem);
+  font-weight: 900; line-height: 1.0; letter-spacing: -.025em;
+  color: var(--cream); margin-bottom: .875rem;
+}
+.fp-desc { font-size: .9rem; color: var(--muted); line-height: 1.75; max-width: 340px; margin-bottom: 2rem; }
+.fp-tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 2.25rem; }
+.fp-tag {
+  font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: .3rem .8rem; border-radius: 999px;
+  border: 1px solid rgba(250,247,242,.12); color: rgba(250,247,242,.55);
+}
+.fp-pricing { display: flex; align-items: baseline; gap: .75rem; margin-bottom: 1.375rem; }
+.fp-price { font-family: var(--serif); font-size: 2rem; font-weight: 900; color: var(--cream); }
+.fp-was { font-size: .9rem; color: var(--muted); text-decoration: line-through; }
+.fp-save { font-size: .65rem; font-weight: 700; color: #4AC274; background: rgba(74,194,116,.12); padding: .22rem .65rem; border-radius: 999px; }
+.fp-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+/* Right: image */
+.fp-visual {
+  position: relative; overflow: hidden;
+  border-left: 1px solid var(--border);
+}
+.fp-visual img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transition: transform .7s ease;
+  filter: brightness(.82) saturate(1.1);
+}
+.fp.open:hover .fp-visual img { transform: scale(1.04); }
+.fp-visual-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, var(--bg) 0%, transparent 30%);
+}
+
+@media(max-width:900px){
+  .flavor-explorer { flex-direction: column; height: auto; min-height: auto; }
+  .fp { flex: none; border-right: none; border-bottom: 1px solid var(--border); min-height: 64px; }
+  .fp.open { min-height: 480px; }
+  .fp-label { transform: translate(-50%,-50%); }
+  .fp-inner { grid-template-columns: 1fr; }
+  .fp-visual { display: none; }
+}
+
+/* ─── STORY ─── */
+.story {
+  background: #FAF7F2;
+  border-top: 1px solid #E2D8CA;
+}
+
+/* Zone 1 — editorial split */
+.story-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 68vh;
+  border-bottom: 1px solid #E2D8CA;
+}
+
+.story-content {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(4rem,6vw,6rem) clamp(3rem,5vw,5rem) clamp(4rem,6vw,6rem) clamp(2rem,4vw,4rem);
+  border-right: 1px solid #E2D8CA;
+}
+.story-tag {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-size: .62rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.875rem; align-self: flex-start;
+  background: rgba(200,150,42,.08); border: 1px solid rgba(200,150,42,.25);
+  padding: .38rem .95rem; border-radius: 999px;
+}
+.story-heading {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(2.25rem,4.5vw,4.75rem);
+  line-height: .92; letter-spacing: -.04em;
+  color: #180F05; margin-bottom: 1.375rem;
+}
+.story-heading em { color: var(--gold); font-style: italic; }
+.story-body {
+  font-size: .9375rem; color: #7A6552; line-height: 1.8;
+  max-width: 400px; margin-bottom: 2.5rem;
+}
+.story-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.s-btn-dark {
+  display: inline-flex; align-items: center; gap: .6rem;
+  background: #180F05; color: #FAF7F2;
+  padding: .875rem 1.875rem; border-radius: 999px;
+  font-size: .775rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  transition: background .22s, transform .22s;
+}
+.s-btn-dark:hover { background: var(--gold); transform: translateY(-2px); }
+.s-btn-dark svg { width: 14px; height: 14px; transition: transform .2s; flex-shrink: 0; }
+.s-btn-dark:hover svg { transform: translateX(4px); }
+.s-btn-ghost {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .8rem; font-weight: 600; color: #9C8B78;
+  transition: color .2s;
+}
+.s-btn-ghost:hover { color: #180F05; }
+
+/* Right: image panel */
+.story-image { position: relative; overflow: hidden; }
+.story-image img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center;
+  filter: brightness(.85) saturate(1.1);
+  display: block; transition: transform .9s ease;
+}
+.story-split:hover .story-image img { transform: scale(1.04); }
+.story-image-grad {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(250,247,242,.18) 0%, transparent 35%);
+}
+
+/* Floating proof card */
+.story-proof {
+  position: absolute; bottom: 2rem; left: 2rem; z-index: 3;
+  background: rgba(10,6,2,.82); backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(200,150,42,.22); border-radius: 14px;
+  padding: 1.375rem 1.625rem;
+}
+.sp-row { display: flex; align-items: center; gap: .75rem; }
+.sp-row + .sp-row { margin-top: .625rem; }
+.sp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+.sp-text { font-size: .78rem; color: rgba(250,247,242,.75); }
+.sp-text strong { color: var(--gold2); font-weight: 800; }
+
+/* Zone 2 — process timeline */
+.story-timeline {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border-bottom: 1px solid #E2D8CA;
+  position: relative;
+}
+/* Gold connecting line */
+.story-timeline::before {
+  content: ''; position: absolute;
+  top: 2.6rem; /* vertically centred on the circles */
+  left: calc(12.5% + 1.25rem); right: calc(12.5% + 1.25rem);
+  height: 1px;
+  background: linear-gradient(to right,
+    rgba(200,150,42,.8) 0%,
+    rgba(200,150,42,.25) 50%,
+    rgba(200,150,42,.8) 100%);
+  pointer-events: none; z-index: 0;
+}
+
+.tl-step {
+  padding: 2.5rem 2.25rem 3rem;
+  border-right: 1px solid #E2D8CA;
+  transition: background .25s;
+}
+.tl-step:last-child { border-right: none; }
+.tl-step:hover { background: #FDFAF6; }
+
+.tl-circle {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--gold); color: #180F05;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--sans); font-size: .72rem; font-weight: 900;
+  margin-bottom: 1.5rem; position: relative; z-index: 1;
+  box-shadow: 0 6px 20px rgba(200,150,42,.3);
+  transition: transform .25s, box-shadow .25s;
+}
+.tl-step:hover .tl-circle { transform: scale(1.1); box-shadow: 0 10px 28px rgba(200,150,42,.4); }
+
+.tl-title {
+  font-family: var(--serif); font-weight: 800;
+  font-size: clamp(1rem,1.5vw,1.2rem);
+  line-height: 1.2; letter-spacing: -.01em;
+  color: #180F05; margin-bottom: .625rem;
+}
+.tl-title em { color: var(--gold); font-style: italic; }
+.tl-desc { font-size: .825rem; color: #7A6552; line-height: 1.72; }
+
+/* Zone 3 — stats strip (dark) */
+.story-stats {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  background: #180F05;
+}
+.ss-cell {
+  padding: 2.25rem 2.5rem;
+  border-right: 1px solid rgba(255,255,255,.07);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.ss-cell:last-child { border-right: none; }
+.ss-n {
+  font-family: var(--serif); font-size: clamp(2.25rem,3.5vw,3rem);
+  font-weight: 900; color: var(--gold); line-height: 1;
+  letter-spacing: -.03em; margin-bottom: .35rem;
+}
+.ss-l {
+  font-size: .6rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(250,247,242,.4);
+}
+
+/* Responsive */
+@media(max-width:900px){
+  .story-split { grid-template-columns: 1fr; min-height: auto; }
+  .story-content { border-right: none; border-bottom: 1px solid #E2D8CA; padding: 3rem clamp(1.5rem,4vw,3rem); }
+  .story-image { min-height: 52vw; }
+  .story-timeline { grid-template-columns: 1fr 1fr; }
+  .story-timeline::before { display: none; }
+  .tl-step:nth-child(2) { border-right: none; }
+  .tl-step:nth-child(1),.tl-step:nth-child(2) { border-bottom: 1px solid #E2D8CA; }
+  .story-stats { grid-template-columns: 1fr 1fr; }
+  .ss-cell:nth-child(2) { border-right: none; }
+  .ss-cell:nth-child(1),.ss-cell:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,.07); }
+}
+@media(max-width:540px){
+  .story-timeline { grid-template-columns: 1fr; }
+  .story-timeline::before { display: none; }
+  .tl-step { border-right: none; border-bottom: 1px solid #E2D8CA; padding: 2rem clamp(1.5rem,4vw,2rem); }
+  .tl-step:last-child { border-bottom: none; }
+}
+
+/* ─── PRODUCTS CAROUSEL ─── */
+.h2-products {
+  background: #FAF7F2;
+  padding: clamp(4rem,7vw,7rem) 0 0;
+  overflow: hidden;
+  border-top: 1px solid #E2D8CA;
+}
+.h2-prod-headline {
+  text-align: center;
+  font-family: var(--serif); font-size: clamp(2.5rem,6vw,6.5rem);
+  font-weight: 900; line-height: 1; letter-spacing: -.03em;
+  color: #180F05; margin-bottom: 2.5rem;
+  padding: 0 clamp(1.5rem,4vw,4rem);
+}
+.h2-prod-pill-row { display: flex; justify-content: center; margin-bottom: clamp(3rem,5vw,5rem); padding: 0 clamp(1.5rem,4vw,4rem); }
+.h2-prod-pill {
+  display: flex; align-items: center; background: #F1EDE6; border-radius: 999px;
+  padding: .625rem .625rem .625rem 1.75rem; gap: 1.5rem; flex-wrap: wrap; justify-content: center;
+}
+.h2-prod-pill-rating { display: flex; align-items: center; gap: .625rem; font-size: .9375rem; font-weight: 600; color: #180F05; white-space: nowrap; }
+.h2-prod-pill-stars { font-size: 1.1rem; letter-spacing: 1px; }
+.h2-prod-pill-cta {
+  display: inline-flex; align-items: center; gap: .75rem;
+  background: #180F05; color: #fff; padding: .75rem 1.625rem; border-radius: 999px;
+  font-size: .875rem; font-weight: 700; transition: background .2s, transform .2s; white-space: nowrap;
+}
+.h2-prod-pill-cta:hover { background: var(--rust); transform: scale(1.03); }
+.h2-prod-pill-cta-arrow {
+  width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.18);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.h2-prod-pill-cta-arrow svg { width: 16px; height: 16px; }
+
+.h2-prod-swiper-wrap { position: relative; width: 92vw; margin: 0 auto; }
+.h2-products-swiper { padding: .5rem .25rem 1rem !important; overflow: visible !important; }
+.h2-products-swiper .swiper-slide { height: auto; }
+
+.h2-slide-card {
+  background: #fff; border: 1px solid #E0D8CE; border-radius: 14px;
+  overflow: hidden; display: flex; flex-direction: column; height: 100%;
+  transition: box-shadow .25s, transform .25s; cursor: pointer;
+}
+.h2-slide-card:hover { box-shadow: 0 12px 36px rgba(24,15,5,.1); transform: translateY(-4px); }
+.h2-slide-img-wrap { position: relative; overflow: hidden; aspect-ratio: 1; background: #F0E9DC; flex-shrink: 0; }
+.h2-slide-img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s ease; display: block; }
+.h2-slide-card:hover .h2-slide-img { transform: scale(1.06); }
+.h2-slide-rank {
+  position: absolute; top: .75rem; left: .75rem; z-index: 2;
+  width: 26px; height: 26px; border-radius: 50%; background: rgba(18,10,3,.82); color: #fff;
+  font-size: .6rem; font-weight: 800; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+}
+.h2-slide-badge { position: absolute; top: .75rem; right: .75rem; z-index: 2; padding: .3rem .7rem; border-radius: 999px; font-size: .58rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.h2-sb-sale { background: #E63B2E; color: #fff; }
+.h2-sb-hot  { background: #E84020; color: #fff; }
+.h2-sb-new  { background: #180F05; color: #fff; }
+.h2-sb-value{ background: var(--gold); color: #180F05; }
+.h2-sb-save { background: #E63B2E; color: #fff; }
+.h2-slide-body { padding: 1.125rem 1.25rem; display: flex; flex-direction: column; flex: 1; }
+.h2-slide-cat { font-size: .6rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #9C8B78; margin-bottom: .35rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.h2-slide-name { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: #180F05; line-height: 1.3; margin-bottom: .5rem; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.h2-slide-stars { display: flex; align-items: center; gap: .375rem; margin-bottom: .875rem; }
+.h2-s { color: #180F05; font-size: .85rem; letter-spacing: .5px; }
+.h2-sct { font-size: .72rem; color: #9C8B78; }
+.h2-slide-divider { border: none; border-top: 1px solid #E2D8CA; margin-bottom: .875rem; }
+.h2-slide-pricing { display: flex; align-items: baseline; gap: .45rem; margin-bottom: .875rem; }
+.h2-slide-price { font-family: var(--serif); font-size: 1.125rem; font-weight: 800; color: #180F05; }
+.h2-slide-was { font-size: .82rem; color: #9C8B78; text-decoration: line-through; }
+.h2-slide-atc {
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+  width: 100%; padding: .8rem 1rem; background: #180F05; color: #fff;
+  border: none; border-radius: 8px; font-size: .8rem; font-weight: 700;
+  letter-spacing: .05em; text-transform: uppercase; cursor: pointer; transition: background .2s; margin-top: auto;
+}
+.h2-slide-atc:hover { background: var(--rust); }
+.h2-prod-swiper-wrap .swiper-button-next,
+.h2-prod-swiper-wrap .swiper-button-prev {
+  width: 42px !important; height: 42px !important; border-radius: 50%;
+  background: #fff !important; border: 1.5px solid #E2D8CA;
+  box-shadow: 0 4px 16px rgba(24,15,5,.1);
+  color: #180F05 !important; top: 38% !important; transition: all .2s;
+}
+.h2-prod-swiper-wrap .swiper-button-next:hover,
+.h2-prod-swiper-wrap .swiper-button-prev:hover { background: #180F05 !important; color: #fff !important; border-color: #180F05; }
+.h2-prod-swiper-wrap .swiper-button-next { right: -8px !important; }
+.h2-prod-swiper-wrap .swiper-button-prev { left: -8px !important; }
+.h2-prod-swiper-wrap .swiper-button-next::after,
+.h2-prod-swiper-wrap .swiper-button-prev::after { font-size: .8rem !important; font-weight: 900 !important; }
+
+/* ─── REVIEWS ─── */
+.reviews {
+  padding: clamp(4rem,7vw,7rem) 0 0;
+  background: var(--bg);
+  overflow: hidden;
+}
+.reviews .container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(1.5rem,4vw,4rem); }
+
+/* Big centered headline — mirrors products */
+.rev-headline {
+  text-align: center;
+  font-family: var(--serif); font-size: clamp(2.5rem,6vw,6.5rem);
+  font-weight: 900; line-height: 1; letter-spacing: -.03em;
+  color: var(--cream); margin-bottom: 2.5rem;
+  padding: 0 clamp(1.5rem,4vw,4rem);
+}
+.rev-headline em { color: var(--gold); font-style: italic; }
+
+/* Rating + CTA pill */
+.rev-pill-row { display: flex; justify-content: center; margin-bottom: clamp(3rem,5vw,5rem); padding: 0 clamp(1.5rem,4vw,4rem); }
+.rev-pill {
+  display: flex; align-items: center; background: rgba(250,247,242,.06); border-radius: 999px;
+  padding: .625rem .625rem .625rem 1.75rem; gap: 1.5rem; flex-wrap: wrap; justify-content: center;
+  border: 1px solid rgba(250,247,242,.1);
+}
+.rev-pill-rating { display: flex; align-items: center; gap: .625rem; font-size: .9375rem; font-weight: 600; color: var(--cream); white-space: nowrap; }
+.rev-pill-stars { font-size: 1.1rem; letter-spacing: 1px; color: var(--gold); }
+.rev-pill-cta {
+  display: inline-flex; align-items: center; gap: .75rem;
+  background: var(--gold); color: var(--bg); padding: .75rem 1.625rem; border-radius: 999px;
+  font-size: .875rem; font-weight: 700; transition: background .2s, transform .2s; white-space: nowrap;
+}
+.rev-pill-cta:hover { background: var(--gold2); transform: scale(1.03); }
+.rev-pill-cta-arrow { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rev-pill-cta-arrow svg { width: 16px; height: 16px; }
+
+/* Swiper slider */
+.rev-swiper-wrap { position: relative; width: 92vw; margin: 0 auto; }
+.reviews-swiper2 { padding: .5rem .25rem 1rem !important; overflow: visible !important; }
+.reviews-swiper2 .swiper-slide { width: 380px; height: auto; }
+
+/* Review card — dark style with home-1 structure */
+.rev-card {
+  background: var(--bg2); border: 1px solid rgba(255,255,255,.09); border-radius: 14px;
+  padding: 1.625rem 1.5rem 1.25rem; display: flex; flex-direction: column;
+  height: 100%; box-sizing: border-box; transition: border-color .25s, box-shadow .25s;
+}
+.rev-card:hover { border-color: rgba(200,150,42,.3); box-shadow: 0 12px 36px rgba(0,0,0,.25); }
+.rc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: .875rem; }
+.rc-stars { color: var(--gold); font-size: 1.05rem; letter-spacing: 1px; }
+.rc-time { font-size: .75rem; color: var(--muted); }
+.rc-title { font-weight: 700; font-size: .9375rem; color: var(--cream); margin-bottom: .625rem; }
+.rc-body { font-size: .875rem; line-height: 1.68; flex: 1; margin-bottom: 1.125rem; color: var(--muted); }
+.rc-highlight { color: var(--gold2); }
+.rc-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 1rem; }
+.rc-author-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: .875rem; }
+.rc-name { font-weight: 600; font-size: .8125rem; color: var(--cream); }
+.rc-verified { display: flex; align-items: center; gap: .3rem; font-size: .75rem; color: var(--muted); }
+.rc-verified-badge { width: 16px; height: 16px; border-radius: 50%; background: #2E9D4E; color: #fff; font-size: .6rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rc-product {
+  display: flex; align-items: center; gap: .75rem;
+  background: rgba(250,247,242,.05); border-radius: 8px; padding: .625rem .875rem; margin-bottom: .875rem;
+  border: 1px solid var(--border);
+}
+.rc-product-thumb { width: 36px; height: 36px; border-radius: 6px; flex-shrink: 0; }
+.rc-product-label { font-size: .68rem; color: var(--muted); }
+.rc-product-name { font-size: .78rem; font-weight: 700; color: var(--cream); }
+.rc-helpful { display: flex; align-items: center; justify-content: flex-end; gap: .875rem; font-size: .72rem; color: var(--muted); }
+.rc-helpful-btn { background: none; border: none; color: var(--muted); font-size: .72rem; display: inline-flex; align-items: center; gap: .3rem; transition: color .18s; }
+.rc-helpful-btn:hover { color: var(--cream); }
+
+/* Swiper nav — dark cards on dark bg */
+.rev-swiper-wrap .swiper-button-next,
+.rev-swiper-wrap .swiper-button-prev {
+  width: 42px !important; height: 42px !important; border-radius: 50%;
+  background: var(--bg2) !important; border: 1.5px solid rgba(255,255,255,.12);
+  box-shadow: 0 4px 16px rgba(0,0,0,.3);
+  color: var(--cream) !important; top: 40% !important; transition: all .2s;
+}
+.rev-swiper-wrap .swiper-button-next:hover,
+.rev-swiper-wrap .swiper-button-prev:hover { background: var(--gold) !important; color: var(--bg) !important; border-color: var(--gold); }
+.rev-swiper-wrap .swiper-button-next { right: -8px !important; }
+.rev-swiper-wrap .swiper-button-prev { left: -8px !important; }
+.rev-swiper-wrap .swiper-button-next::after,
+.rev-swiper-wrap .swiper-button-prev::after { font-size: .8rem !important; font-weight: 900 !important; }
+
+/* Press strip at bottom of reviews */
+.rev-press {
+  background: var(--bg2); margin-top: clamp(3rem,5vw,5rem);
+  border-top: 1px solid var(--border);
+  padding: 1.875rem clamp(1.5rem,4vw,4rem);
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 2.25rem;
+}
+.rev-press-label { font-size: .62rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: rgba(250,247,242,.28); white-space: nowrap; }
+.rev-press-sep { width: 1px; height: 16px; background: var(--border); flex-shrink: 0; }
+.rev-press-logos { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; justify-content: center; }
+.rev-press-logo { font-family: var(--serif); font-size: .875rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: rgba(250,247,242,.28); transition: color .2s; }
+.rev-press-logo:hover { color: var(--gold); }
+
+/* ─── SUBSCRIBE ─── */
+.subscribe {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: clamp(5rem,9vw,9rem) 0;
+  position: relative; overflow: hidden;
+}
+.subscribe::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 60% at 15% 50%, rgba(200,150,42,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 50%, rgba(139,46,15,.07) 0%, transparent 60%);
+}
+.sub-inner {
+  max-width: 1280px; margin: 0 auto; padding: 0 clamp(1.5rem,4vw,4rem);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  position: relative; z-index: 1;
+}
+.sub-left { display: flex; flex-direction: column; }
+.sub-eyebrow { font-size: .68rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.375rem; display: flex; align-items: center; gap: .625rem; }
+.sub-eyebrow::before { content: ''; width: 24px; height: 1.5px; background: var(--gold); flex-shrink: 0; }
+.sub-hl { font-family: var(--serif); font-size: clamp(2.25rem,4.5vw,4.5rem); font-weight: 900; line-height: .95; letter-spacing: -.035em; color: var(--cream); margin-bottom: 1.25rem; }
+.sub-hl em { color: var(--gold); font-style: italic; }
+.sub-desc { font-size: .9375rem; color: var(--muted); line-height: 1.75; max-width: 400px; margin-bottom: 2.25rem; }
+.sub-perks { list-style: none; display: flex; flex-direction: column; gap: .875rem; }
+.sub-perks li { display: flex; align-items: center; gap: .875rem; font-size: .875rem; color: rgba(250,247,242,.75); }
+.perk-icon { width: 22px; height: 22px; border-radius: 50%; background: rgba(200,150,42,.12); border: 1px solid rgba(200,150,42,.25); display: flex; align-items: center; justify-content: center; font-size: .62rem; color: var(--gold); flex-shrink: 0; }
+
+/* Widget */
+.sub-widget {
+  background: var(--cream); border-radius: 20px; padding: 2.75rem;
+  box-shadow: 0 32px 80px rgba(0,0,0,.4);
+}
+.sw-badge { display: inline-block; background: var(--gold); color: var(--bg); padding: .3rem .875rem; border-radius: 999px; font-size: .6rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 1.375rem; }
+.sw-title { font-family: var(--serif); font-size: 1.5rem; font-weight: 800; color: var(--bg2); margin-bottom: .3rem; }
+.sw-sub { font-size: .84rem; color: #6B5A48; margin-bottom: 1.625rem; }
+.sw-opt { border: 1.5px solid #E2D8CA; border-radius: 12px; padding: 1.125rem; margin-bottom: .625rem; cursor: pointer; transition: all .2s; display: flex; justify-content: space-between; align-items: center; }
+.sw-opt.sel { border-color: var(--bg2); background: rgba(24,12,4,.03); }
+.sw-opt-l { display: flex; align-items: center; gap: .75rem; }
+.sw-radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #C8B9A5; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+.sw-opt.sel .sw-radio { border-color: var(--bg2); background: var(--bg2); }
+.sw-opt.sel .sw-radio::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+.sw-opt-name { font-weight: 700; font-size: .9375rem; color: var(--bg2); display: block; }
+.sw-opt-s { font-size: .78rem; color: #9C8B78; }
+.sw-opt-price { font-family: var(--serif); font-size: 1.2rem; font-weight: 800; color: var(--bg2); text-align: right; }
+.sw-save-tag { font-size: .6rem; font-weight: 700; color: #2E9D4E; background: rgba(46,157,78,.1); padding: .2rem .5rem; border-radius: 999px; margin-top: .25rem; display: block; text-align: right; }
+.sw-cta { width: 100%; padding: 1.125rem; background: var(--bg2); color: #fff; border: none; border-radius: 10px; font-size: .875rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; transition: background .2s; margin-top: .875rem; }
+.sw-cta:hover { background: var(--rust); }
+.sw-guarantee { text-align: center; margin-top: .875rem; font-size: .75rem; color: #9C8B78; display: flex; align-items: center; justify-content: center; gap: .4rem; }
+
+@media(max-width:900px){ .sub-inner { grid-template-columns: 1fr; gap: 3rem; } }
+
+/* ─── NEWSLETTER ─── */
+.newsletter {
+  background: var(--gold);
+  padding: clamp(3.5rem,6vw,6rem) 0;
+}
+.nl-inner { max-width: 1280px; margin: 0 auto; padding: 0 clamp(1.5rem,4vw,4rem); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.nl-hl { font-family: var(--serif); font-size: clamp(1.75rem,3vw,3rem); font-weight: 900; line-height: 1.0; letter-spacing: -.025em; color: var(--bg); margin-bottom: .625rem; }
+.nl-sub { font-size: .9rem; color: rgba(10,6,2,.6); line-height: 1.65; }
+.nl-row { display: flex; border-radius: 6px; overflow: hidden; box-shadow: 0 8px 32px rgba(10,6,2,.2); }
+.nl-input { flex: 1; padding: 1.1rem 1.25rem; border: none; font-size: .9375rem; font-family: var(--sans); background: #fff; color: var(--bg2); outline: none; }
+.nl-input::placeholder { color: #9C8B78; }
+.nl-btn { padding: 1.1rem 1.75rem; background: var(--bg2); color: #fff; border: none; font-size: .78rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; transition: background .2s; }
+.nl-btn:hover { background: var(--rust); }
+.nl-note { font-size: .72rem; color: rgba(10,6,2,.4); margin-top: .875rem; }
+@media(max-width:720px){ .nl-inner { grid-template-columns: 1fr; gap: 2rem; } }
+
+/* ─── FOOTER ─── */
+.footer { background: #060401; border-top: 1px solid var(--border); }
+.ft-main { max-width: 1280px; margin: 0 auto; padding: 4rem clamp(1.5rem,4vw,4rem) 3rem; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2.5rem; border-bottom: 1px solid var(--border); }
+.ft-logo { font-family: var(--serif); font-size: 1.6rem; font-weight: 900; color: var(--cream); line-height: 1; }
+.ft-logo small { display: block; font-family: var(--sans); font-size: .38rem; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin-top: 3px; }
+.ft-tag { font-family: var(--serif); font-style: italic; font-size: .9rem; color: rgba(250,247,242,.3); line-height: 1.65; margin: 1.125rem 0 1.5rem; max-width: 220px; }
+.ft-social { display: flex; gap: .5rem; margin-bottom: 1.75rem; }
+.ft-soc-btn { width: 36px; height: 36px; border-radius: 8px; background: var(--border); border: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; color: rgba(250,247,242,.5); transition: all .2s; }
+.ft-soc-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+.ft-soc-btn svg { width: 16px; height: 16px; }
+.ft-pay { display: flex; gap: .375rem; flex-wrap: wrap; }
+.ft-pay span { font-size: .58rem; font-weight: 800; letter-spacing: .04em; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); color: rgba(250,247,242,.3); padding: .28rem .55rem; border-radius: 4px; }
+.ft-col h4 { font-size: .62rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: rgba(250,247,242,.85); margin-bottom: 1.375rem; }
+.ft-list { list-style: none; display: flex; flex-direction: column; gap: .8rem; }
+.ft-list a { font-size: .875rem; color: rgba(250,247,242,.38); transition: color .18s; }
+.ft-list a:hover { color: var(--gold); }
+.ft-bot { max-width: 1280px; margin: 0 auto; padding: 1.25rem clamp(1.5rem,4vw,4rem); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .875rem; }
+.ft-copy { font-size: .75rem; color: rgba(250,247,242,.2); }
+.ft-blinks { display: flex; gap: 1.75rem; }
+.ft-blinks a { font-size: .75rem; color: rgba(250,247,242,.2); transition: color .2s; }
+.ft-blinks a:hover { color: rgba(250,247,242,.5); }
+@media(max-width:1000px){ .ft-main { grid-template-columns: 1fr 1fr; } }
+@media(max-width:520px) { .ft-main { grid-template-columns: 1fr; } }
+
+/* ─── SCROLL FX CLASSES ─── */
+.reveal { opacity: 0; transform: translateY(30px); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ─── UTILS ─── */
+.no-cursor * { cursor: none !important; }
+
+/* ─── SWIPER GLOBAL OVERRIDES ─── */
+/* Reset default Swiper arrow color so our custom styles take full effect */
+.swiper-button-next,
+.swiper-button-prev { --swiper-navigation-color: currentColor; }
+/* Both swipers need the wrapper to clip on the section level, not the swiper itself */
+.h2-products-swiper,
+.reviews-swiper2 { overflow: visible !important; }
+.h2-prod-swiper-wrap,
+.rev-swiper-wrap { overflow: hidden; }
+</style>
+</head>
+<body>
+
+<!-- ── CURSOR ── -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ── PRELOADER ── -->
+<div id="preloader">
+  <div class="pre-wordmark">
+    <img src="https://carneshabu.com/cdn/shop/files/cs_lablel_transparent_1.png?height=98&v=1771622482" alt="Carne Shabu" style="height:clamp(3rem,8vw,5rem);width:auto;display:block;filter:brightness(0) invert(1);margin:0 auto;" id="pre-text">
+  </div>
+  <div class="pre-bar" id="pre-bar"></div>
+</div>
+
+<!-- ── ANN BAR ── -->
+<div class="ann-bar">
+  Free Shipping over $85 &nbsp;·&nbsp; First order 15% off — code <a href="#">WAGYU15</a>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="nav" id="nav">
+
+  <!-- Left: links -->
+  <ul class="nav-links">
+    <li><a href="#flavors">Shop</a></li>
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#subscribe">Subscribe</a></li>
+    <li><a href="#flavors" class="nl-cta">Shop Now ↗</a></li>
+  </ul>
+
+  <!-- Center: logo -->
+  <a href="#" class="nav-logo">
+    <img src="https://carneshabu.com/cdn/shop/files/cs_lablel_transparent_1.png?height=98&v=1771622482" alt="Carne Shabu" style="height:38px;width:auto;display:block;filter:brightness(0) invert(1);">
+  </a>
+
+  <!-- Right: actions -->
+  <div class="nav-actions">
+    <button class="nav-btn" aria-label="Search">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+    <button class="nav-btn" aria-label="Account">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+    <button class="nav-btn" id="cartBtn" aria-label="Cart">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="cart-bubble" id="cartCount">0</span>
+    </button>
+    <!-- Hamburger — mobile only -->
+    <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+    </button>
+  </div>
+
+</nav>
+
+<!-- ── MOBILE MENU ── -->
+<div id="mobile-menu" role="dialog" aria-label="Navigation menu">
+
+  <ul class="mm-links">
+    <li><a href="#flavors">Shop</a></li>
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#subscribe">Subscribe</a></li>
+    <li><a href="#">Wholesale</a></li>
+  </ul>
+
+  <ul class="mm-sub-links">
+    <li><a href="#">Lemon Pepper</a></li>
+    <li><a href="#">Spicy Lemon Pepper</a></li>
+    <li><a href="#">Ghost Pepper</a></li>
+    <li><a href="#">Variety Pack</a></li>
+  </ul>
+
+  <a href="#flavors" class="mm-cta-btn">
+    Shop All Flavors →
+  </a>
+
+  <div class="mm-bottom">
+    <div class="mm-social">
+      <a href="#" class="mm-soc" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" class="mm-soc" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.99a8.16 8.16 0 0 0 4.78 1.52V7.06a4.85 4.85 0 0 1-1.01-.37z"/></svg>
+      </a>
+      <a href="#" class="mm-soc" aria-label="X">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+    <div class="mm-copy">© 2025 Carne Shabu</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     HERO
+     ══════════════════════════════════════ -->
+<section class="hero" id="hero">
+
+  <!-- Full-bleed background image -->
+  <div class="hero-bg">
+    <img src="https://carneshabu.com/cdn/shop/files/CARNE_SHABU-264.jpg?v=1748645209&width=1800" alt="Carne Shabu Premium Wagyu Carne Seca" loading="eager" id="heroBgImg">
+    <div class="hero-bg-overlay"></div>
+  </div>
+
+  <!-- Grain texture -->
+  <div class="hero-grain"></div>
+
+  <!-- Main content row -->
+  <div class="hero-row">
+
+    <!-- Left: typographic content -->
+    <div class="hero-l">
+
+      <div class="hero-eyebrow" id="hEyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        100% A-Grade Wagyu Beef
+      </div>
+
+      <h1 class="hero-title">
+        <span class="ht-line"><span class="ht-word ht-outline">WAGYU</span></span>
+        <span class="ht-line"><span class="ht-word ht-main">CARNE <em class="ht-em">SECA</em></span></span>
+      </h1>
+
+      <p class="hero-tagline" id="hTagline">
+        The world's most prized beef — slow-dried into bold, crunchy perfection. 18g protein. Zero fillers. Impossible to put down.
+      </p>
+
+      <div class="hero-ctas" id="hCtas">
+        <a href="#flavors" class="btn-pill btn-pill-gold">
+          Shop All Flavors
+          <svg class="arr" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a href="#story" class="btn-pill btn-pill-outline">Our Story</a>
+      </div>
+
+      <div class="hero-trust" id="hTrust">
+        <span class="trust-badge"><span class="trust-badge-icon">★</span> 4.9 Rating</span>
+        <span class="trust-badge"><span class="trust-badge-icon">⚡</span> 18g Protein</span>
+        <span class="trust-badge"><span class="trust-badge-icon">✓</span> 440+ Reviews</span>
+        <span class="trust-badge"><span class="trust-badge-icon">🚚</span> Free Ship $85+</span>
+      </div>
+
+    </div>
+
+    <!-- Right: interactive product card -->
+    <div class="hero-r">
+      <div class="hero-card" id="heroCard">
+
+        <!-- Image + flavor tabs -->
+        <div class="hc-img">
+          <img id="hcImg"
+               src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Untitleddesign.png?v=1772287789"
+               alt="Lemon Pepper Wagyu Carne Seca" loading="eager">
+          <div class="hc-img-overlay"></div>
+
+          <!-- Rating pill -->
+          <div class="hc-rating">
+            <span class="hc-rating-stars">★★★★★</span>
+            4.9 · 440 reviews
+          </div>
+
+          <!-- Flavor tab switcher -->
+          <div class="hc-tabs">
+            <button class="hct active" data-flavor="lemon">Lemon<br>Pepper</button>
+            <button class="hct" data-flavor="spicy">Spicy<br>Lemon</button>
+            <button class="hct" data-flavor="ghost">Ghost<br>Pepper</button>
+            <button class="hct" data-flavor="truffle">Truffle<br>Sea Salt</button>
+          </div>
+        </div>
+
+        <!-- Text body -->
+        <div class="hc-body">
+          <div class="hcb-name" id="hcName">Lemon Pepper — "The OG"</div>
+          <div class="hcb-desc" id="hcDesc">Traditional Mexican carne seca — no seed oils, no sugary marinades. 20g protein per bag.</div>
+          <div class="hcb-footer">
+            <div class="hcb-price-wrap">
+              <div class="hcb-price">$11.99</div>
+              <div class="hcb-sub">
+                <span class="hcb-was">$13.99</span>
+                <span class="hcb-save">Save $2</span>
+              </div>
+            </div>
+            <button class="hcb-atc" data-add>Add to Cart</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom stat rail -->
+  <div class="hero-bottom">
+    <div class="hb-stat"><div class="hb-n">100%</div><div class="hb-l">Wagyu Beef</div></div>
+    <div class="hb-stat"><div class="hb-n">18g+</div><div class="hb-l">Protein / bag</div></div>
+    <div class="hb-stat"><div class="hb-n">4.9★</div><div class="hb-l">440+ Reviews</div></div>
+    <div class="hb-stat"><div class="hb-n">0g</div><div class="hb-l">Fillers</div></div>
+    <div class="hb-stat"><div class="hb-n">24h</div><div class="hb-l">Ships Next Day</div></div>
+  </div>
+
+  <!-- Scroll cue -->
+  <div class="scroll-cue" id="scrollCue">
+    <div class="scroll-cue-line"></div>
+    Scroll
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     DUAL MARQUEE
+     ══════════════════════════════════════ -->
+<div class="marquee-wrap">
+  <!-- Forward -->
+  <div class="marquee-track fwd">
+    <div class="mq-item gold">Premium Wagyu</div><div class="mq-sep"></div>
+    <div class="mq-item">Carne Seca</div><div class="mq-sep"></div>
+    <div class="mq-item gold">18g Protein</div><div class="mq-sep"></div>
+    <div class="mq-item">Zero Fillers</div><div class="mq-sep"></div>
+    <div class="mq-item gold">Free Shipping $85+</div><div class="mq-sep"></div>
+    <div class="mq-item">4.9 Stars</div><div class="mq-sep"></div>
+    <div class="mq-item gold">A-Grade Beef</div><div class="mq-sep"></div>
+    <div class="mq-item">Bold Flavor</div><div class="mq-sep"></div>
+    <!-- duplicate for seamless loop -->
+    <div class="mq-item gold">Premium Wagyu</div><div class="mq-sep"></div>
+    <div class="mq-item">Carne Seca</div><div class="mq-sep"></div>
+    <div class="mq-item gold">18g Protein</div><div class="mq-sep"></div>
+    <div class="mq-item">Zero Fillers</div><div class="mq-sep"></div>
+    <div class="mq-item gold">Free Shipping $85+</div><div class="mq-sep"></div>
+    <div class="mq-item">4.9 Stars</div><div class="mq-sep"></div>
+    <div class="mq-item gold">A-Grade Beef</div><div class="mq-sep"></div>
+    <div class="mq-item">Bold Flavor</div><div class="mq-sep"></div>
+  </div>
+  <!-- Reverse -->
+  <div class="marquee-track rev">
+    <div class="mq-item">Melt in Your Mouth</div><div class="mq-sep"></div>
+    <div class="mq-item gold">Lemon Pepper</div><div class="mq-sep"></div>
+    <div class="mq-item">Slow-Dried</div><div class="mq-sep"></div>
+    <div class="mq-item gold">Ghost Pepper</div><div class="mq-sep"></div>
+    <div class="mq-item">Ships in 24h</div><div class="mq-sep"></div>
+    <div class="mq-item gold">Subscribe & Save 15%</div><div class="mq-sep"></div>
+    <div class="mq-item">Spicy Lemon Pepper</div><div class="mq-sep"></div>
+    <div class="mq-item gold">Made in USA</div><div class="mq-sep"></div>
+    <div class="mq-item">Melt in Your Mouth</div><div class="mq-sep"></div>
+    <div class="mq-item gold">Lemon Pepper</div><div class="mq-sep"></div>
+    <div class="mq-item">Slow-Dried</div><div class="mq-sep"></div>
+    <div class="mq-item gold">Ghost Pepper</div><div class="mq-sep"></div>
+    <div class="mq-item">Ships in 24h</div><div class="mq-sep"></div>
+    <div class="mq-item gold">Subscribe & Save 15%</div><div class="mq-sep"></div>
+    <div class="mq-item">Spicy Lemon Pepper</div><div class="mq-sep"></div>
+    <div class="mq-item gold">Made in USA</div><div class="mq-sep"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     FLAVOR EXPLORER
+     ══════════════════════════════════════ -->
+<section class="flavors reveal" id="flavors">
+  <div class="flavors-header">
+    <div class="section-eyebrow">Choose Your Flavor</div>
+    <h2 class="section-title">Four Bold<br><em>Profiles.</em></h2>
+    <p class="section-sub">Click to explore each flavor — then shop directly at carneshabu.com.</p>
+  </div>
+
+  <div class="flavor-explorer" id="flavorExplorer">
+
+    <!-- ① Lemon Pepper -->
+    <div class="fp open" data-f="lemon">
+      <div class="fp-label">Lemon Pepper</div>
+      <div class="fp-inner">
+        <div class="fp-text">
+          <div class="fp-heat">
+            <span>Heat</span>
+            <span class="heat-dot on"></span><span class="heat-dot off"></span><span class="heat-dot off"></span><span class="heat-dot off"></span><span class="heat-dot off"></span>
+            <span>Mild</span>
+          </div>
+          <h3 class="fp-name">Lemon<br>Pepper</h3>
+          <p class="fp-desc">"The OG." Traditional Mexican carne seca with organic lemon peel and sea salt. No seed oils. No sugary marinades. Just clean, bright flavor — our #1 seller.</p>
+          <div class="fp-tags">
+            <span class="fp-tag">Organic Lemon Peel</span>
+            <span class="fp-tag">Sea Salt</span>
+            <span class="fp-tag">20g Protein</span>
+          </div>
+          <div class="fp-pricing">
+            <span class="fp-price">$11.99</span>
+            <span class="fp-was">1-Pack</span>
+            <span class="fp-save">4-Pack $39.99</span>
+          </div>
+          <div class="fp-actions">
+            <a href="https://carneshabu.com/products/carne" class="btn btn-gold" target="_blank">Shop Now</a>
+            <a href="https://carneshabu.com/products/carne" class="btn btn-ghost" target="_blank">View Details</a>
+          </div>
+        </div>
+        <div class="fp-visual">
+          <img src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Untitleddesign.png?v=1772287789" alt="Lemon Pepper Wagyu Carne Seca" loading="lazy">
+          <div class="fp-visual-overlay"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② Spicy Lemon Pepper -->
+    <div class="fp" data-f="spicy">
+      <div class="fp-label">Spicy Lemon Pepper</div>
+      <div class="fp-inner">
+        <div class="fp-text">
+          <div class="fp-heat">
+            <span>Heat</span>
+            <span class="heat-dot on"></span><span class="heat-dot on"></span><span class="heat-dot on"></span><span class="heat-dot off"></span><span class="heat-dot off"></span>
+            <span>Medium-Hot</span>
+          </div>
+          <h3 class="fp-name">Spicy Lemon<br>Pepper</h3>
+          <p class="fp-desc">"La Picosita." Wagyu beef with organic lemon peel and crushed red pepper. Crispy, crunchy, and just enough heat to keep you reaching back in the bag.</p>
+          <div class="fp-tags">
+            <span class="fp-tag">Crushed Red Pepper</span>
+            <span class="fp-tag">Slow-Build Heat</span>
+            <span class="fp-tag">20g Protein</span>
+          </div>
+          <div class="fp-pricing">
+            <span class="fp-price">$11.99</span>
+            <span class="fp-was">1-Pack</span>
+            <span class="fp-save">20-Pack $179.99</span>
+          </div>
+          <div class="fp-actions">
+            <a href="https://carneshabu.com/products/spicy-lemon-pepper" class="btn btn-gold" target="_blank">Shop Now</a>
+            <a href="https://carneshabu.com/products/spicy-lemon-pepper" class="btn btn-ghost" target="_blank">View Details</a>
+          </div>
+        </div>
+        <div class="fp-visual">
+          <img src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/9.png?v=1772287773" alt="Spicy Lemon Pepper Wagyu Carne Seca" loading="lazy">
+          <div class="fp-visual-overlay"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ Ghost Pepper -->
+    <div class="fp" data-f="ghost">
+      <div class="fp-label">Ghost Pepper</div>
+      <div class="fp-inner">
+        <div class="fp-text">
+          <div class="fp-heat">
+            <span>Heat</span>
+            <span class="heat-dot on"></span><span class="heat-dot on"></span><span class="heat-dot on"></span><span class="heat-dot on"></span><span class="heat-dot on"></span>
+            <span>🔥 Extreme</span>
+          </div>
+          <h3 class="fp-name">Ghost<br>Pepper</h3>
+          <p class="fp-desc">Traditional Mexican carne seca, elevated. Wagyu beef with habanero, cayenne, and ghost pepper for bold layered heat. Not for the faint of heart.</p>
+          <div class="fp-tags">
+            <span class="fp-tag">Ghost Pepper</span>
+            <span class="fp-tag">Habanero + Cayenne</span>
+            <span class="fp-tag">20g Protein</span>
+          </div>
+          <div class="fp-pricing">
+            <span class="fp-price">$11.99</span>
+            <span class="fp-was">1-Pack</span>
+            <span class="fp-save">8-Pack $75.99</span>
+          </div>
+          <div class="fp-actions">
+            <a href="https://carneshabu.com/products/ghost-pepper" class="btn btn-gold" target="_blank">Shop Now</a>
+            <a href="https://carneshabu.com/products/ghost-pepper" class="btn btn-ghost" target="_blank">View Details</a>
+          </div>
+        </div>
+        <div class="fp-visual">
+          <img src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/10.png?v=1772287756" alt="Ghost Pepper Wagyu Carne Seca" loading="lazy">
+          <div class="fp-visual-overlay"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ Truffle Sea Salt -->
+    <div class="fp" data-f="truffle">
+      <div class="fp-label">Truffle Sea Salt</div>
+      <div class="fp-inner">
+        <div class="fp-text">
+          <div class="fp-heat">
+            <span>Heat</span>
+            <span class="heat-dot off"></span><span class="heat-dot off"></span><span class="heat-dot off"></span><span class="heat-dot off"></span><span class="heat-dot off"></span>
+            <span>None</span>
+          </div>
+          <h3 class="fp-name">Truffle<br>Sea Salt</h3>
+          <p class="fp-desc">"Our most popular flavor." Wagyu beef with truffle salt. Subtle, savory, and extremely addictive. The bag that converts people who say they don't like jerky.</p>
+          <div class="fp-tags">
+            <span class="fp-tag">Truffle Salt</span>
+            <span class="fp-tag">Most Popular</span>
+            <span class="fp-tag">20g Protein</span>
+          </div>
+          <div class="fp-pricing">
+            <span class="fp-price">$11.99</span>
+            <span class="fp-was">1-Pack</span>
+            <span class="fp-save">10-Pack $91.99</span>
+          </div>
+          <div class="fp-actions">
+            <a href="https://carneshabu.com/products/truffle-sea-salt" class="btn btn-gold" target="_blank">Shop Now</a>
+            <a href="https://carneshabu.com/products/truffle-sea-salt" class="btn btn-ghost" target="_blank">View Details</a>
+          </div>
+        </div>
+        <div class="fp-visual">
+          <img src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/7_eef26cd0-73e7-40e7-9701-c7a81065762d.png?v=1772287766" alt="Truffle Sea Salt Wagyu Carne Seca" loading="lazy">
+          <div class="fp-visual-overlay"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PRODUCTS CAROUSEL
+     ══════════════════════════════════════ -->
+<section class="h2-products" id="products">
+
+  <h2 class="h2-prod-headline reveal">Shop Carne Shabu</h2>
+
+  <div class="h2-prod-pill-row reveal">
+    <div class="h2-prod-pill">
+      <div class="h2-prod-pill-rating">
+        <span class="h2-prod-pill-stars">★★★★★</span>
+        4.9 &nbsp;(440+ reviews)
+      </div>
+      <a href="https://carneshabu.com/collections/all" class="h2-prod-pill-cta" target="_blank">
+        View all products
+        <span class="h2-prod-pill-cta-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <div class="h2-prod-swiper-wrap">
+    <div class="swiper h2-products-swiper">
+      <div class="swiper-wrapper">
+
+        <!-- ① Lemon Pepper — The OG -->
+        <div class="swiper-slide">
+          <div class="h2-slide-card">
+            <div class="h2-slide-img-wrap">
+              <img class="h2-slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Untitleddesign.png?v=1772287789" alt="Lemon Pepper Wagyu Carne Seca" loading="lazy">
+              <div class="h2-slide-rank">#1</div>
+              <span class="h2-slide-badge h2-sb-hot">⭐ The OG</span>
+            </div>
+            <div class="h2-slide-body">
+              <div class="h2-slide-cat">Wagyu Carne Seca · 1-Pack</div>
+              <h3 class="h2-slide-name">Lemon Pepper</h3>
+              <div class="h2-slide-stars"><span class="h2-s">★★★★★</span><span class="h2-sct">(148)</span></div>
+              <hr class="h2-slide-divider">
+              <div class="h2-slide-pricing"><span class="h2-slide-price">$11.99</span><span class="h2-slide-was">4-Pack $39.99</span></div>
+              <a href="https://carneshabu.com/products/carne" class="h2-slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ② Spicy Lemon Pepper — La Picosita -->
+        <div class="swiper-slide">
+          <div class="h2-slide-card">
+            <div class="h2-slide-img-wrap">
+              <img class="h2-slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/9.png?v=1772287773" alt="Spicy Lemon Pepper Wagyu Carne Seca" loading="lazy">
+              <div class="h2-slide-rank">#2</div>
+              <span class="h2-slide-badge h2-sb-hot">🔥 La Picosita</span>
+            </div>
+            <div class="h2-slide-body">
+              <div class="h2-slide-cat">Wagyu Carne Seca · 1-Pack</div>
+              <h3 class="h2-slide-name">Spicy Lemon Pepper</h3>
+              <div class="h2-slide-stars"><span class="h2-s">★★★★★</span><span class="h2-sct">(203)</span></div>
+              <hr class="h2-slide-divider">
+              <div class="h2-slide-pricing"><span class="h2-slide-price">$11.99</span><span class="h2-slide-was">20-Pack $179.99</span></div>
+              <a href="https://carneshabu.com/products/spicy-lemon-pepper" class="h2-slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ③ Ghost Pepper -->
+        <div class="swiper-slide">
+          <div class="h2-slide-card">
+            <div class="h2-slide-img-wrap">
+              <img class="h2-slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/10.png?v=1772287756" alt="Ghost Pepper Wagyu Carne Seca" loading="lazy">
+              <div class="h2-slide-rank">#3</div>
+              <span class="h2-slide-badge h2-sb-new">🌶 Ghost Pepper</span>
+            </div>
+            <div class="h2-slide-body">
+              <div class="h2-slide-cat">Wagyu Carne Seca · 1-Pack</div>
+              <h3 class="h2-slide-name">Ghost Pepper</h3>
+              <div class="h2-slide-stars"><span class="h2-s">★★★★★</span><span class="h2-sct">(89)</span></div>
+              <hr class="h2-slide-divider">
+              <div class="h2-slide-pricing"><span class="h2-slide-price">$11.99</span><span class="h2-slide-was">8-Pack $75.99</span></div>
+              <a href="https://carneshabu.com/products/ghost-pepper" class="h2-slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ④ Truffle Sea Salt -->
+        <div class="swiper-slide">
+          <div class="h2-slide-card">
+            <div class="h2-slide-img-wrap">
+              <img class="h2-slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/7_eef26cd0-73e7-40e7-9701-c7a81065762d.png?v=1772287766" alt="Truffle Sea Salt Wagyu Carne Seca" loading="lazy">
+              <div class="h2-slide-rank">#4</div>
+              <span class="h2-slide-badge h2-sb-value">Most Popular</span>
+            </div>
+            <div class="h2-slide-body">
+              <div class="h2-slide-cat">Wagyu Carne Seca · 1-Pack</div>
+              <h3 class="h2-slide-name">Truffle Sea Salt</h3>
+              <div class="h2-slide-stars"><span class="h2-s">★★★★★</span><span class="h2-sct">(217)</span></div>
+              <hr class="h2-slide-divider">
+              <div class="h2-slide-pricing"><span class="h2-slide-price">$11.99</span><span class="h2-slide-was">10-Pack $91.99</span></div>
+              <a href="https://carneshabu.com/products/truffle-sea-salt" class="h2-slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ⑤ Variety Pack -->
+        <div class="swiper-slide">
+          <div class="h2-slide-card">
+            <div class="h2-slide-img-wrap">
+              <img class="h2-slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/13_4cea9abc-683b-4372-bc66-96279e75dcfe.png?v=1772287747" alt="Wagyu Carne Seca Variety Pack" loading="lazy">
+              <div class="h2-slide-rank">#5</div>
+              <span class="h2-slide-badge h2-sb-value">All 4 Flavors</span>
+            </div>
+            <div class="h2-slide-body">
+              <div class="h2-slide-cat">Bundle · All 4 Flavors</div>
+              <h3 class="h2-slide-name">Variety Pack</h3>
+              <div class="h2-slide-stars"><span class="h2-s">★★★★★</span><span class="h2-sct">(312)</span></div>
+              <hr class="h2-slide-divider">
+              <div class="h2-slide-pricing"><span class="h2-slide-price">$39.99</span></div>
+              <a href="https://carneshabu.com/products/variety-pack" class="h2-slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ⑥ Lemon Pepper — Product Label Shot -->
+        <div class="swiper-slide">
+          <div class="h2-slide-card">
+            <div class="h2-slide-img-wrap">
+              <img class="h2-slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/LemonPepper.png?v=1771616944" alt="Lemon Pepper Pack Label" loading="lazy">
+              <div class="h2-slide-rank">#1</div>
+              <span class="h2-slide-badge h2-sb-save">4-Pack Deal</span>
+            </div>
+            <div class="h2-slide-body">
+              <div class="h2-slide-cat">Wagyu Carne Seca · 4-Pack</div>
+              <h3 class="h2-slide-name">Lemon Pepper — 4-Pack</h3>
+              <div class="h2-slide-stars"><span class="h2-s">★★★★★</span><span class="h2-sct">(148)</span></div>
+              <hr class="h2-slide-divider">
+              <div class="h2-slide-pricing"><span class="h2-slide-price">$39.99</span><span class="h2-slide-was">$47.96</span></div>
+              <a href="https://carneshabu.com/products/carne" class="h2-slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ⑦ Ghost Pepper Label -->
+        <div class="swiper-slide">
+          <div class="h2-slide-card">
+            <div class="h2-slide-img-wrap">
+              <img class="h2-slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Ghost_Pepper.png?v=1771616944" alt="Ghost Pepper Pack Label" loading="lazy">
+              <div class="h2-slide-rank">#3</div>
+              <span class="h2-slide-badge h2-sb-save">8-Pack Deal</span>
+            </div>
+            <div class="h2-slide-body">
+              <div class="h2-slide-cat">Wagyu Carne Seca · 8-Pack</div>
+              <h3 class="h2-slide-name">Ghost Pepper — 8-Pack</h3>
+              <div class="h2-slide-stars"><span class="h2-s">★★★★★</span><span class="h2-sct">(89)</span></div>
+              <hr class="h2-slide-divider">
+              <div class="h2-slide-pricing"><span class="h2-slide-price">$75.99</span><span class="h2-slide-was">$95.92</span></div>
+              <a href="https://carneshabu.com/products/ghost-pepper" class="h2-slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ⑧ Amo Carne Seca Hat — Merch -->
+        <div class="swiper-slide">
+          <div class="h2-slide-card">
+            <div class="h2-slide-img-wrap">
+              <img class="h2-slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/IMG_8572_1.png?v=1765584004" alt="Amo Carne Seca Corduroy Hat" loading="lazy" style="object-fit:contain;background:#1C1208;padding:.5rem">
+              <div class="h2-slide-rank">🎩</div>
+              <span class="h2-slide-badge h2-sb-new">Limited</span>
+            </div>
+            <div class="h2-slide-body">
+              <div class="h2-slide-cat">Merch · Corduroy Hat</div>
+              <h3 class="h2-slide-name">Amo Carne Seca Hat</h3>
+              <div class="h2-slide-stars"><span class="h2-s">★★★★★</span><span class="h2-sct">(43)</span></div>
+              <hr class="h2-slide-divider">
+              <div class="h2-slide-pricing"><span class="h2-slide-price">$50.00</span></div>
+              <a href="https://carneshabu.com/products/amo-carne-seca-corduroy-hat" class="h2-slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /swiper-wrapper -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div><!-- /swiper -->
+  </div><!-- /h2-prod-swiper-wrap -->
+
+</section>
+
+<!-- ══════════════════════════════════════
+     STORY
+     ══════════════════════════════════════ -->
+<section class="story" id="story">
+
+  <!-- Zone 1: editorial split -->
+  <div class="story-split">
+
+    <div class="story-content reveal">
+      <span class="story-tag">The Wagyu Difference</span>
+      <h2 class="story-heading">
+        We didn't<br>upgrade jerky.<br><em>We replaced it.</em>
+      </h2>
+      <p class="story-body">
+        Start with A-grade Wagyu — the same beef prized by Michelin chefs worldwide. Slow-dry it at low heat. Season it boldly with zero fillers. That's the entire recipe for something extraordinary.
+      </p>
+      <div class="story-actions">
+        <a href="#" class="s-btn-dark">
+          Our Full Story
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a href="#flavors" class="s-btn-ghost">
+          Shop Now →
+        </a>
+      </div>
+    </div>
+
+    <div class="story-image">
+      <img src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/CARNESHABUFOTOS-281.jpg?v=1772287747"
+           alt="Carne Shabu Variety Pack" loading="lazy">
+      <div class="story-image-grad"></div>
+      <div class="story-proof">
+        <div class="sp-row"><span class="sp-dot"></span><span class="sp-text"><strong>100%</strong> A-Grade Wagyu Beef</span></div>
+        <div class="sp-row"><span class="sp-dot"></span><span class="sp-text"><strong>18g+</strong> Protein per bag</span></div>
+        <div class="sp-row"><span class="sp-dot"></span><span class="sp-text"><strong>Zero</strong> fillers or additives</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Zone 2: process timeline -->
+  <div class="story-timeline">
+
+    <div class="tl-step reveal">
+      <div class="tl-circle">01</div>
+      <div class="tl-title">Source <em>premium</em> Wagyu</div>
+      <p class="tl-desc">A-grade cattle raised for extraordinary marbling — the same beef prized by the world's finest steakhouses. We start here, always.</p>
+    </div>
+
+    <div class="tl-step reveal">
+      <div class="tl-circle">02</div>
+      <div class="tl-title">Slow-dry at <em>low heat</em></div>
+      <p class="tl-desc">Low-and-slow preserves the Wagyu's natural fat, creating a crunchy exterior with an unmistakable melt-in-mouth finish.</p>
+    </div>
+
+    <div class="tl-step reveal">
+      <div class="tl-circle">03</div>
+      <div class="tl-title">Season <em>boldly</em></div>
+      <p class="tl-desc">Four crafted profiles — Lemon Pepper, Spicy Lemon Pepper, Ghost Pepper, Truffle Sea Salt. No fillers. No seed oils. Just serious carne seca flavor.</p>
+    </div>
+
+    <div class="tl-step reveal">
+      <div class="tl-circle">04</div>
+      <div class="tl-title">Ships to <em>your door</em></div>
+      <p class="tl-desc">Packed fresh, shipped within 24 hours. Free shipping over $85. Not perfect? We make it right — guaranteed.</p>
+    </div>
+
+  </div>
+
+  <!-- Zone 3: stats strip -->
+  <div class="story-stats">
+    <div class="ss-cell">
+      <div class="ss-n" data-count="100" data-suffix="%">0%</div>
+      <div class="ss-l">Wagyu Beef</div>
+    </div>
+    <div class="ss-cell">
+      <div class="ss-n" data-count="18" data-suffix="g+">0g</div>
+      <div class="ss-l">Protein per Bag</div>
+    </div>
+    <div class="ss-cell">
+      <div class="ss-n" data-count="440" data-suffix="+">0</div>
+      <div class="ss-l">5-Star Reviews</div>
+    </div>
+    <div class="ss-cell">
+      <div class="ss-n">24h</div>
+      <div class="ss-l">Ships Next Day</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     REVIEWS
+     ══════════════════════════════════════ -->
+<section class="reviews">
+
+  <!-- Big headline -->
+  <h2 class="rev-headline reveal">What people are <em>saying</em></h2>
+
+  <!-- Rating + CTA pill -->
+  <div class="rev-pill-row reveal">
+    <div class="rev-pill">
+      <div class="rev-pill-rating">
+        <span class="rev-pill-stars">★★★★★</span>
+        4.9 &nbsp;(440+ reviews)
+      </div>
+      <a href="#products" class="rev-pill-cta">
+        Shop Jerky
+        <span class="rev-pill-cta-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Review cards Swiper -->
+  <div class="rev-swiper-wrap">
+    <div class="swiper reviews-swiper2">
+      <div class="swiper-wrapper">
+
+        <!-- Review 1 -->
+        <div class="swiper-slide">
+          <div class="rev-card">
+            <div class="rc-top">
+              <span class="rc-stars">★★★★★</span>
+              <span class="rc-time">2 days ago</span>
+            </div>
+            <div class="rc-title">Best jerky I've ever had</div>
+            <div class="rc-body">
+              <span class="rc-highlight">I've tried every beef jerky on the market. Nothing comes close. The Wagyu makes it melt in your mouth while still being crunchy — I didn't know that was possible.</span>
+            </div>
+            <hr class="rc-divider">
+            <div class="rc-author-row">
+              <span class="rc-name">Marco R.</span>
+              <span class="rc-verified">Verified Buyer <span class="rc-verified-badge">✓</span></span>
+            </div>
+            <div class="rc-product">
+              <img class="rc-product-thumb" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/LemonPepper.png?v=1771616944" alt="Lemon Pepper" style="object-fit:contain;background:#12100A">
+              <div>
+                <div class="rc-product-label">Reviewing</div>
+                <div class="rc-product-name">Lemon Pepper Wagyu Carne Seca</div>
+              </div>
+            </div>
+            <div class="rc-helpful">
+              Was this helpful?
+              <button class="rc-helpful-btn">👍 12</button>
+              <button class="rc-helpful-btn">👎 0</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="swiper-slide">
+          <div class="rev-card">
+            <div class="rc-top">
+              <span class="rc-stars">★★★★★</span>
+              <span class="rc-time">5 days ago</span>
+            </div>
+            <div class="rc-title">Spicy Lemon Pepper is elite</div>
+            <div class="rc-body">
+              <span class="rc-highlight">Bought the variety pack and I'm already re-ordering just the Spicy Lemon Pepper. The heat builds perfectly — not overwhelming, just absolutely right. My new snack obsession.</span>
+            </div>
+            <hr class="rc-divider">
+            <div class="rc-author-row">
+              <span class="rc-name">Sofia L.</span>
+              <span class="rc-verified">Verified Buyer <span class="rc-verified-badge">✓</span></span>
+            </div>
+            <div class="rc-product">
+              <img class="rc-product-thumb" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Spicy_Lemon_Pepper.png?v=1771616944" alt="Spicy Lemon Pepper" style="object-fit:contain;background:#12100A">
+              <div>
+                <div class="rc-product-label">Reviewing</div>
+                <div class="rc-product-name">Spicy Lemon Pepper — La Picosita</div>
+              </div>
+            </div>
+            <div class="rc-helpful">
+              Was this helpful?
+              <button class="rc-helpful-btn">👍 8</button>
+              <button class="rc-helpful-btn">👎 0</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="swiper-slide">
+          <div class="rev-card">
+            <div class="rc-top">
+              <span class="rc-stars">★★★★★</span>
+              <span class="rc-time">1 week ago</span>
+            </div>
+            <div class="rc-title">Bien Rica — the real deal</div>
+            <div class="rc-body">
+              <span class="rc-highlight">As someone who grew up eating carne seca, this is authentic. Premium quality with that real flavor. Wagyu just takes it to a whole other level. My family orders two variety packs every month.</span>
+            </div>
+            <hr class="rc-divider">
+            <div class="rc-author-row">
+              <span class="rc-name">Javier V.</span>
+              <span class="rc-verified">Verified Buyer <span class="rc-verified-badge">✓</span></span>
+            </div>
+            <div class="rc-product">
+              <img class="rc-product-thumb" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/13_4cea9abc-683b-4372-bc66-96279e75dcfe.png?v=1772287747" alt="Variety Pack" style="object-fit:contain;background:#12100A">
+              <div>
+                <div class="rc-product-label">Reviewing</div>
+                <div class="rc-product-name">Wagyu Carne Seca Variety Pack</div>
+              </div>
+            </div>
+            <div class="rc-helpful">
+              Was this helpful?
+              <button class="rc-helpful-btn">👍 21</button>
+              <button class="rc-helpful-btn">👎 0</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 4 -->
+        <div class="swiper-slide">
+          <div class="rev-card">
+            <div class="rc-top">
+              <span class="rc-stars">★★★★★</span>
+              <span class="rc-time">2 weeks ago</span>
+            </div>
+            <div class="rc-title">Ghost Pepper = dangerous</div>
+            <div class="rc-body">
+              <span class="rc-highlight">High-protein snacking has never tasted this good. I bring these to the gym and people stop me to ask where I got them. Ghost Pepper is fire — literally and figuratively.</span>
+            </div>
+            <hr class="rc-divider">
+            <div class="rc-author-row">
+              <span class="rc-name">Derek K.</span>
+              <span class="rc-verified">Verified Buyer <span class="rc-verified-badge">✓</span></span>
+            </div>
+            <div class="rc-product">
+              <img class="rc-product-thumb" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Ghost_Pepper.png?v=1771616944" alt="Ghost Pepper" style="object-fit:contain;background:#12100A">
+              <div>
+                <div class="rc-product-label">Reviewing</div>
+                <div class="rc-product-name">Ghost Pepper Wagyu Carne Seca</div>
+              </div>
+            </div>
+            <div class="rc-helpful">
+              Was this helpful?
+              <button class="rc-helpful-btn">👍 6</button>
+              <button class="rc-helpful-btn">👎 0</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 5 -->
+        <div class="swiper-slide">
+          <div class="rev-card">
+            <div class="rc-top">
+              <span class="rc-stars">★★★★★</span>
+              <span class="rc-time">3 weeks ago</span>
+            </div>
+            <div class="rc-title">The Truffle one is addictive</div>
+            <div class="rc-body">
+              <span class="rc-highlight">Sent the variety pack as a gift to my brother. He called me the next day to say Truffle Sea Salt is the best thing he's ever eaten. We now split a 10-pack together every month.</span>
+            </div>
+            <hr class="rc-divider">
+            <div class="rc-author-row">
+              <span class="rc-name">Ashley R.</span>
+              <span class="rc-verified">Verified Buyer <span class="rc-verified-badge">✓</span></span>
+            </div>
+            <div class="rc-product">
+              <img class="rc-product-thumb" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Truffle_Sea_Salt.png?v=1771616944" alt="Truffle Sea Salt" style="object-fit:contain;background:#12100A">
+              <div>
+                <div class="rc-product-label">Reviewing</div>
+                <div class="rc-product-name">Truffle Sea Salt Wagyu Carne Seca</div>
+              </div>
+            </div>
+            <div class="rc-helpful">
+              Was this helpful?
+              <button class="rc-helpful-btn">👍 4</button>
+              <button class="rc-helpful-btn">👎 0</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /swiper-wrapper -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div><!-- /swiper -->
+  </div><!-- /rev-swiper-wrap -->
+
+  <!-- Press strip -->
+  <div class="rev-press">
+    <span class="rev-press-label">As Seen In</span>
+    <div class="rev-press-sep"></div>
+    <div class="rev-press-logos">
+      <span class="rev-press-logo">Food &amp; Wine</span>
+      <span class="rev-press-logo">Eater</span>
+      <span class="rev-press-logo">Men's Health</span>
+      <span class="rev-press-logo">Bon Appétit</span>
+      <span class="rev-press-logo">Forbes</span>
+      <span class="rev-press-logo">Thrillist</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     SUBSCRIBE
+     ══════════════════════════════════════ -->
+<section class="subscribe" id="subscribe">
+  <div class="sub-inner">
+
+    <div class="sub-left reveal">
+      <div class="sub-eyebrow">Subscribe &amp; Save</div>
+      <h2 class="sub-hl">Never Run Out<br><em>of Wagyu.</em></h2>
+      <p class="sub-desc">Save up to 15% on every delivery. Skip, pause, or cancel anytime — total flexibility, zero commitment.</p>
+      <ul class="sub-perks">
+        <li><span class="perk-icon">✓</span> Up to 15% off every order</li>
+        <li><span class="perk-icon">✓</span> Free shipping on all subscription orders</li>
+        <li><span class="perk-icon">✓</span> Skip, pause, or cancel anytime</li>
+        <li><span class="perk-icon">✓</span> First access to new flavors &amp; limited drops</li>
+      </ul>
+    </div>
+
+    <div class="sub-widget reveal">
+      <div class="sw-badge">Most Popular Plan</div>
+      <div class="sw-title">Choose Your Delivery</div>
+      <div class="sw-sub">Customize how often your Carne Shabu arrives.</div>
+
+      <div class="sw-opt sel" data-sub>
+        <div class="sw-opt-l"><div class="sw-radio"></div><div><span class="sw-opt-name">Every 2 Weeks</span><span class="sw-opt-s">Most popular cadence</span></div></div>
+        <div><div class="sw-opt-price">$10.19<span style="font-size:.72rem;font-weight:400">/bag</span></div><span class="sw-save-tag">Save 15%</span></div>
+      </div>
+      <div class="sw-opt" data-sub>
+        <div class="sw-opt-l"><div class="sw-radio"></div><div><span class="sw-opt-name">Monthly</span><span class="sw-opt-s">Perfect for light snackers</span></div></div>
+        <div><div class="sw-opt-price">$10.79<span style="font-size:.72rem;font-weight:400">/bag</span></div><span class="sw-save-tag">Save 10%</span></div>
+      </div>
+      <div class="sw-opt" data-sub>
+        <div class="sw-opt-l"><div class="sw-radio"></div><div><span class="sw-opt-name">One-Time Purchase</span><span class="sw-opt-s">Try it first, no commitment</span></div></div>
+        <div><div class="sw-opt-price">$11.99</div></div>
+      </div>
+
+      <button class="sw-cta" data-add>Subscribe &amp; Save Now</button>
+      <div class="sw-guarantee">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Cancel anytime · Free shipping · No commitment
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     NEWSLETTER
+     ══════════════════════════════════════ -->
+<section class="newsletter">
+  <div class="nl-inner">
+    <div>
+      <h2 class="nl-hl">Get 15% Off Your First Order.</h2>
+      <p class="nl-sub">Early access to new flavors, exclusive recipes, member deals. No spam — just good beef content.</p>
+    </div>
+    <div>
+      <div class="nl-row">
+        <input class="nl-input" type="email" placeholder="Your email address" aria-label="Email">
+        <button class="nl-btn" id="nlBtn">Claim 15% Off</button>
+      </div>
+      <div class="nl-note">By signing up you agree to receive marketing emails. Unsubscribe anytime.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════ -->
+<footer class="footer">
+  <div class="ft-main">
+    <div>
+      <div class="ft-logo"><img src="https://carneshabu.com/cdn/shop/files/cs_lablel_transparent_1.png?height=98&v=1771622482" alt="Carne Shabu" style="height:42px;width:auto;display:block;filter:brightness(0) invert(1);"></div>
+      <div class="ft-tag">"Bien Rica. Bien Sabrosa. Bien Buena."</div>
+      <div class="ft-social">
+        <a href="#" class="ft-soc-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" class="ft-soc-btn" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.99a8.16 8.16 0 0 0 4.78 1.52V7.06a4.85 4.85 0 0 1-1.01-.37z"/></svg>
+        </a>
+        <a href="#" class="ft-soc-btn" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+      <div class="ft-pay">
+        <span>VISA</span><span>MC</span><span>AMEX</span><span>SHOP</span><span>PAYPAL</span>
+      </div>
+    </div>
+    <div class="ft-col">
+      <h4>Shop</h4>
+      <ul class="ft-list">
+        <li><a href="#">All Products</a></li>
+        <li><a href="#">Lemon Pepper</a></li>
+        <li><a href="#">Spicy Lemon Pepper</a></li>
+        <li><a href="#">Ghost Pepper</a></li>
+        <li><a href="#">Variety Pack</a></li>
+        <li><a href="#">Wholesale</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Explore</h4>
+      <ul class="ft-list">
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">The Wagyu Difference</a></li>
+        <li><a href="#">Recipes</a></li>
+        <li><a href="#">Subscribe &amp; Save</a></li>
+        <li><a href="#">Affiliates</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Help</h4>
+      <ul class="ft-list">
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="mailto:hello@carneshabu.com">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <div class="ft-copy">© 2025 Carne Shabu. All rights reserved.</div>
+    <div class="ft-blinks">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Accessibility</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ─── LENIS SMOOTH SCROLL ─── */
+const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+/* ─── CUSTOM CURSOR ─── */
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function trackRing(){
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  ring.style.left   = rx + 'px'; ring.style.top  = ry + 'px';
+  requestAnimationFrame(trackRing);
+})();
+document.querySelectorAll('a,button,[data-add],[data-sub]').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+});
+
+/* ─── NAV SCROLL STATE + HERO PARALLAX ─── */
+const nav = document.getElementById('nav');
+const heroBgImg = document.getElementById('heroBgImg');
+const ANN_H = 33;
+lenis.on('scroll', ({ scroll }) => {
+  nav.classList.toggle('solid', scroll > 30);
+  nav.classList.toggle('ann-hidden', scroll > ANN_H);
+  if (heroBgImg) gsap.set(heroBgImg, { y: scroll * 0.22 });
+});
+
+/* ─── PRELOADER ─── */
+const bar = document.getElementById('pre-bar');
+const preText = document.getElementById('pre-text');
+const preloader = document.getElementById('preloader');
+
+const preTl = gsap.timeline({
+  onComplete: startHero
+});
+preTl
+  .from(preText,  { y: 30, opacity: 0, duration: .5, ease: 'power2.out' })
+  .to(bar,        { width: '160px', duration: .7, ease: 'power2.inOut' })
+  .to(preloader,  { yPercent: -100, duration: .65, ease: 'power3.inOut', delay: .15 });
+
+/* ─── HERO INTRO ─── */
+function startHero() {
+  preloader.style.pointerEvents = 'none';
+
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  tl
+    .to('.ht-word',   { y: 0, duration: 1.1, stagger: .12 }, 0)
+    .to('#hEyebrow',  { opacity: 1, duration: .6 }, .2)
+    .to('#hTagline',  { opacity: 1, y: 0, duration: .7 }, .45)
+    .to('#hCtas',     { opacity: 1, y: 0, duration: .7 }, .6)
+    .to('#hTrust',    { opacity: 1, y: 0, duration: .7 }, .75)
+    .to('#heroCard',  { opacity: 1, y: 0, duration: .9, ease: 'power2.out' }, .5)
+    .to('#scrollCue', { opacity: 1, duration: .5 }, 1.15);
+
+  /* Subtle mouse-move tilt on hero card */
+  const card = document.getElementById('heroCard');
+  if (card && window.innerWidth > 760) {
+    document.addEventListener('mousemove', e => {
+      const { innerWidth: W, innerHeight: H } = window;
+      const xp = (e.clientX / W - .5) * 2;
+      const yp = (e.clientY / H - .5) * 2;
+      gsap.to(card, {
+        rotateY: xp * 6, rotateX: yp * -4,
+        duration: 1.6, ease: 'power2.out',
+        transformPerspective: 800
+      });
+    });
+    document.addEventListener('mouseleave', () => {
+      gsap.to(card, { rotateY: 0, rotateX: 0, duration: .8, ease: 'power2.out' });
+    });
+  }
+}
+
+/* ─── HERO CARD FLAVOR SWITCHER ─── */
+const flavorData = {
+  lemon: {
+    img:  'https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Untitleddesign.png?v=1772287789',
+    name: 'Lemon Pepper — "The OG"',
+    desc: 'Traditional Mexican carne seca with organic lemon peel and sea salt. No seed oils. No sugary marinades. 20g protein per bag.'
+  },
+  spicy: {
+    img:  'https://cdn.shopify.com/s/files/1/0877/1777/3613/files/9.png?v=1772287773',
+    name: 'Spicy Lemon Pepper — "La Picosita"',
+    desc: 'Organic lemon peel with crushed red pepper. Crispy, crunchy, and just enough heat to keep you reaching back in the bag.'
+  },
+  ghost: {
+    img:  'https://cdn.shopify.com/s/files/1/0877/1777/3613/files/10.png?v=1772287756',
+    name: 'Ghost Pepper Wagyu Carne Seca',
+    desc: 'Habanero, cayenne, and ghost pepper for bold layered heat. 20g protein. Not for the faint of heart.'
+  },
+  truffle: {
+    img:  'https://cdn.shopify.com/s/files/1/0877/1777/3613/files/7_eef26cd0-73e7-40e7-9701-c7a81065762d.png?v=1772287766',
+    name: 'Truffle Sea Salt — Most Popular',
+    desc: 'Wagyu beef with truffle salt. Subtle, savory, and extremely addictive. The bag that converts people who say they don\'t like jerky.'
+  }
+};
+const hcImg  = document.getElementById('hcImg');
+const hcName = document.getElementById('hcName');
+const hcDesc = document.getElementById('hcDesc');
+document.querySelectorAll('.hct').forEach(tab => {
+  tab.addEventListener('click', function() {
+    if (this.classList.contains('active')) return;
+    document.querySelectorAll('.hct').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    const d = flavorData[this.dataset.flavor];
+    gsap.to([hcImg, hcName, hcDesc], {
+      opacity: 0, duration: .18,
+      onComplete: () => {
+        hcImg.src    = d.img;
+        hcName.textContent = d.name;
+        hcDesc.textContent = d.desc;
+        gsap.to([hcImg, hcName, hcDesc], { opacity: 1, duration: .3 });
+      }
+    });
+  });
+});
+
+/* ─── HAMBURGER + MOBILE MENU ─── */
+const ham        = document.getElementById('navHam');
+const mobileMenu = document.getElementById('mobile-menu');
+function closeMenu() {
+  mobileMenu.classList.remove('open');
+  ham.classList.remove('open');
+  ham.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+  lenis.start();
+}
+if (ham && mobileMenu) {
+  ham.addEventListener('click', () => {
+    const opening = !mobileMenu.classList.contains('open');
+    if (opening) {
+      mobileMenu.classList.add('open');
+      ham.classList.add('open');
+      ham.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      lenis.stop();
+    } else {
+      closeMenu();
+    }
+  });
+  mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+}
+
+/* ─── SCROLL REVEAL ─── */
+gsap.utils.toArray('.reveal').forEach(el => {
+  gsap.to(el, {
+    opacity: 1, y: 0, duration: .8, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+  });
+});
+
+/* ─── COUNTER ANIMATION ─── */
+document.querySelectorAll('[data-count]').forEach(el => {
+  const target  = parseFloat(el.dataset.count);
+  const suffix  = el.dataset.suffix || '';
+  const isFloat = String(target).includes('.');
+  ScrollTrigger.create({
+    trigger: el, start: 'top 80%', once: true,
+    onEnter: () => {
+      gsap.to({ v: 0 }, {
+        v: target, duration: 1.8, ease: 'power2.out',
+        onUpdate: function() {
+          const v = this.targets()[0].v;
+          el.textContent = (isFloat ? v.toFixed(1) : Math.round(v)) + suffix;
+        }
+      });
+    }
+  });
+});
+
+/* ─── FLAVOR EXPLORER ─── */
+const panels = document.querySelectorAll('.fp');
+const explorer = document.getElementById('flavorExplorer');
+
+panels.forEach(panel => {
+  panel.addEventListener('mouseenter', () => {
+    if (window.innerWidth <= 900) return;
+    panels.forEach(p => p.classList.remove('open'));
+    panel.classList.add('open');
+  });
+});
+// On mobile: click to toggle
+panels.forEach(panel => {
+  panel.addEventListener('click', () => {
+    if (window.innerWidth > 900) return;
+    const isOpen = panel.classList.contains('open');
+    panels.forEach(p => p.classList.remove('open'));
+    if (!isOpen) panel.classList.add('open');
+  });
+});
+// Reset on explorer mouse leave
+if (explorer) {
+  explorer.addEventListener('mouseleave', () => {
+    if (window.innerWidth <= 900) return;
+    panels.forEach(p => p.classList.remove('open'));
+    panels[0].classList.add('open');
+  });
+}
+
+/* ─── SUBSCRIPTION TOGGLE ─── */
+document.querySelectorAll('[data-sub]').forEach(opt => {
+  if (!opt.classList.contains('sw-opt')) return;
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.sw-opt').forEach(o => o.classList.remove('sel'));
+    opt.classList.add('sel');
+  });
+});
+
+/* ─── ADD TO CART ─── */
+let cartN = 0;
+const cartBubble = document.getElementById('cartCount');
+document.querySelectorAll('[data-add]').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    const orig = this.innerHTML;
+    this.innerHTML = '✓ Added!';
+    this.style.background = '#2E9D4E';
+    cartN++;
+    if (cartBubble) cartBubble.textContent = cartN;
+    setTimeout(() => {
+      this.innerHTML = orig;
+      this.style.background = '';
+    }, 1600);
+  });
+});
+
+/* ─── NEWSLETTER ─── */
+const nlBtn = document.getElementById('nlBtn');
+if (nlBtn) {
+  nlBtn.addEventListener('click', () => {
+    const inp = document.querySelector('.nl-input');
+    if (inp && inp.value.includes('@')) {
+      nlBtn.textContent = '✓ You\'re in!';
+      nlBtn.style.background = '#1A6B35';
+      inp.value = '';
+    }
+  });
+}
+
+/* ─── STORY TIMELINE SCRUB ─── */
+gsap.utils.toArray('.tl-step').forEach((step, i) => {
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: step, start: 'top 85%', once: true }
+  });
+  tl
+    .from(step.querySelector('.tl-circle'), { scale: 0, opacity: 0, duration: .45, ease: 'back.out(2)' }, i * .08)
+    .from(step.querySelector('.tl-title'),  { y: 14, opacity: 0, duration: .5, ease: 'power2.out' }, i * .08 + .15)
+    .from(step.querySelector('.tl-desc'),   { y: 10, opacity: 0, duration: .5, ease: 'power2.out' }, i * .08 + .26);
+});
+
+/* Story content reveal */
+gsap.utils.toArray('.story-stats .ss-cell').forEach((cell, i) => {
+  gsap.from(cell, {
+    y: 20, opacity: 0, duration: .6, ease: 'power2.out', delay: i * .1,
+    scrollTrigger: { trigger: cell, start: 'top 88%', once: true }
+  });
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+/* ─── PRODUCTS CAROUSEL ─── */
+new Swiper('.h2-products-swiper', {
+  grabCursor: true,
+  navigation: {
+    nextEl: '.h2-prod-swiper-wrap .swiper-button-next',
+    prevEl: '.h2-prod-swiper-wrap .swiper-button-prev',
+  },
+  breakpoints: {
+    0:    { slidesPerView: 1.2, spaceBetween: 12 },
+    480:  { slidesPerView: 2.1, spaceBetween: 14 },
+    768:  { slidesPerView: 3.1, spaceBetween: 16 },
+    1024: { slidesPerView: 4.2, spaceBetween: 18 },
+    1280: { slidesPerView: 5.1, spaceBetween: 20 },
+  }
+});
+
+/* ─── REVIEWS SWIPER ─── */
+new Swiper('.reviews-swiper2', {
+  grabCursor: true,
+  navigation: {
+    nextEl: '.rev-swiper-wrap .swiper-button-next',
+    prevEl: '.rev-swiper-wrap .swiper-button-prev',
+  },
+  breakpoints: {
+    0:    { slidesPerView: 1.1,  spaceBetween: 12 },
+    640:  { slidesPerView: 1.6,  spaceBetween: 16 },
+    900:  { slidesPerView: 2.2,  spaceBetween: 18 },
+    1200: { slidesPerView: 3.1,  spaceBetween: 20 },
+  }
+});
+</script>
+</body>
+</html>

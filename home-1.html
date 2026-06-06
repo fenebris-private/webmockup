@@ -1,0 +1,2524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carne Shabu — Premium Wagyu Carne Seca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700;1,900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<style>
+/* ============================================================
+   DESIGN SYSTEM
+   ============================================================ */
+:root {
+  --cream:       #FAF7F2;
+  --cream-2:     #F0E9DC;
+  --cream-3:     #E5DDD0;
+  --white:       #FFFFFF;
+  --dark:        #180F05;
+  --dark-2:      #2C1F0F;
+  --brown:       #5C3D1E;
+  --gold:        #C8962A;
+  --gold-2:      #E2A832;
+  --rust:        #8B2E0F;
+  --rust-2:      #A83520;
+  --muted:       #9C8B78;
+  --border:      #E2D8CA;
+  --border-2:    #C8B9A5;
+
+  --font-serif:  'Playfair Display', Georgia, serif;
+  --font-sans:   'Inter', -apple-system, sans-serif;
+  --max-w:       1280px;
+  --pad-x:       clamp(1.5rem, 4vw, 4rem);
+  --section-y:   clamp(5rem, 9vw, 9rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); background: var(--cream); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.display { font-family: var(--font-serif); font-size: clamp(3.75rem, 9vw, 10rem); font-weight: 900; line-height: .9; letter-spacing: -.03em; }
+.h1      { font-family: var(--font-serif); font-size: clamp(2.25rem, 4.5vw, 4.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -.025em; }
+.h2      { font-family: var(--font-serif); font-size: clamp(1.75rem, 3vw, 3rem); font-weight: 700; line-height: 1.15; letter-spacing: -.015em; }
+.overline { font-family: var(--font-sans); font-size: .72rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
+em       { font-style: italic; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--font-sans); font-size: .8125rem; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase;
+  padding: 1rem 2rem; border: none; cursor: pointer;
+  transition: background .22s ease, transform .22s ease, box-shadow .22s ease;
+  white-space: nowrap;
+}
+.btn svg { width: 15px; height: 15px; transition: transform .2s; flex-shrink: 0; }
+.btn:hover svg.arr { transform: translateX(4px); }
+
+.btn-dark   { background: var(--dark);  color: var(--white); }
+.btn-dark:hover  { background: var(--rust); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(24,15,5,.25); }
+.btn-gold   { background: var(--gold);  color: var(--white); }
+.btn-gold:hover  { background: var(--gold-2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,150,42,.35); }
+.btn-white  { background: var(--white); color: var(--dark); }
+.btn-white:hover { background: var(--cream); transform: translateY(-2px); }
+.btn-ghost  { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,.45); }
+.btn-ghost:hover { background: rgba(255,255,255,.1); border-color: white; }
+.btn-outline { background: transparent; color: var(--dark); border: 1.5px solid var(--dark); }
+.btn-outline:hover { background: var(--dark); color: var(--white); }
+.btn-lg { padding: 1.2rem 2.6rem; font-size: .875rem; }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad-x); }
+.section   { padding: var(--section-y) 0; }
+
+/* ============================================================
+   ANNOUNCEMENT BAR
+   ============================================================ */
+.ann-bar {
+  background: var(--dark); color: rgba(255,255,255,.75);
+  text-align: center; padding: .625rem 1rem;
+  font-size: .8rem; font-weight: 500; letter-spacing: .04em;
+  position: relative; z-index: 100;
+}
+.ann-bar strong { color: var(--gold-2); }
+
+/* ============================================================
+   HERO WRAPPER — image covers nav + hero as one unit
+   ============================================================ */
+.hero-wrap {
+  position: relative;
+  background-image: url('https://carneshabu.com/cdn/shop/files/CARNE_SHABU-264.jpg?v=1748645209&width=1800');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+/* Dark overlay so white text is legible on the moody product photo */
+.hero-wrap::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    linear-gradient(to bottom, rgba(10,6,2,.72) 0%, rgba(10,6,2,.42) 55%, rgba(10,6,2,.78) 100%);
+  pointer-events: none;
+}
+
+/* ============================================================
+   NAVIGATION  — transparent, dark text on light image (like BREZ)
+   ============================================================ */
+.nav {
+  position: relative; z-index: 90;
+  background: transparent;
+  border-bottom: none;
+  transition: box-shadow .3s, background .3s;
+}
+.nav.scrolled {
+  background: rgba(10,6,2,.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.nav-inner {
+  max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad-x);
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; height: 68px;
+}
+
+/* Left: nav links */
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; justify-content: flex-start; }
+.nav-links a {
+  font-family: var(--font-sans); font-size: .875rem; font-weight: 500;
+  letter-spacing: .01em; color: rgba(255,255,255,.75);
+  transition: color .18s; display: flex; align-items: center; gap: .25rem;
+}
+.nav-links a:hover { color: var(--gold-2); }
+.nav-links .has-drop::after { content: '∨'; font-size: .65rem; margin-left: .15rem; opacity: .45; }
+
+/* Center: logo */
+.nav-logo {
+  font-family: var(--font-serif); font-size: 1.6rem; font-weight: 900;
+  color: var(--white); letter-spacing: -.015em; text-align: center;
+  display: flex; flex-direction: column; align-items: center; line-height: 1.1;
+}
+.nav-logo img { filter: brightness(0) invert(1); }
+.nav-logo-sub {
+  font-family: var(--font-sans); font-size: .44rem; font-weight: 700;
+  letter-spacing: .24em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-top: 2px;
+}
+
+/* Right: icon actions */
+.nav-actions { display: flex; align-items: center; gap: .25rem; justify-content: flex-end; }
+.nav-icon {
+  background: none; border: none; cursor: pointer; color: rgba(255,255,255,.75);
+  padding: .5rem; display: flex; align-items: center; transition: color .18s;
+  position: relative;
+}
+.nav-icon:hover { color: var(--gold-2); }
+.nav-cart { background: none; border: none; cursor: pointer; color: rgba(255,255,255,.75); padding: .5rem; display: flex; align-items: center; transition: color .18s; position: relative; }
+.nav-cart:hover { color: var(--gold-2); }
+.cart-bubble {
+  position: absolute; top: 2px; right: 2px;
+  background: var(--rust); color: var(--white);
+  width: 15px; height: 15px; border-radius: 50%;
+  font-size: .58rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1; pointer-events: none;
+}
+
+@media(max-width:780px){
+  .nav-inner { grid-template-columns: 1fr auto 1fr; }
+  .nav-links { display: none; }
+}
+
+/* ============================================================
+   HERO — minimal, centered, dark text on light image (BREZ exact)
+   ============================================================ */
+.hero {
+  position: relative; z-index: 1;
+  min-height: calc(100vh - 68px);
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: space-between;
+  padding-top: clamp(3rem, 6vw, 6rem);
+  padding-bottom: clamp(2.5rem, 4vw, 4rem);
+}
+
+/* Text block — centered, top of hero */
+.hero-text {
+  position: relative; z-index: 2;
+  text-align: center; padding: 0 var(--pad-x);
+  max-width: 900px; margin: 0 auto;
+}
+.hero-hl {
+  font-family: var(--font-serif); font-weight: 900;
+  font-size: clamp(2.75rem, 7vw, 7rem);
+  line-height: 1.0; letter-spacing: -.03em;
+  color: var(--white); margin-bottom: 1rem;
+  text-shadow: 0 2px 24px rgba(0,0,0,.35);
+}
+.hero-hl em { font-style: italic; color: var(--gold-2); }
+.hero-sub {
+  font-family: var(--font-sans); font-size: clamp(.875rem, 1.5vw, 1.05rem);
+  color: rgba(255,255,255,.72); line-height: 1.6;
+  max-width: 560px; margin: 0 auto 0;
+}
+
+/* Pill CTA — BREZ-style */
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 0;
+  background: var(--white); border-radius: 9999px;
+  padding: .45rem .45rem .45rem 1.75rem;
+  font-family: var(--font-sans); font-size: .875rem; font-weight: 600;
+  color: var(--dark); box-shadow: 0 4px 24px rgba(28,20,9,.14);
+  cursor: pointer; border: none; transition: box-shadow .25s, transform .25s;
+  text-decoration: none;
+}
+.hero-pill:hover { box-shadow: 0 8px 36px rgba(28,20,9,.2); transform: translateY(-2px); }
+.hero-pill-arrow {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--gold); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-left: 1.25rem; transition: background .22s;
+}
+.hero-pill:hover .hero-pill-arrow { background: var(--rust); }
+.hero-pill-arrow svg { width: 18px; height: 18px; color: var(--white); }
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+
+/* Trust pills — white text on dark overlay */
+.hero-trust {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 1.5rem;
+  padding: 0 var(--pad-x);
+}
+.trust-pill {
+  display: flex; align-items: center; gap: .45rem;
+  color: rgba(255,255,255,.72); font-size: .78rem; font-weight: 500;
+}
+.trust-pill svg { color: var(--gold-2); flex-shrink: 0; }
+
+@keyframes pulse { 0%,100%{opacity:.4}50%{opacity:1} }
+
+@media(max-width:600px){
+  .hero-hl { font-size: clamp(2.4rem, 11vw, 4rem); }
+  .hero-product { max-width: 320px; }
+  .hero-trust { gap: 1rem; }
+}
+
+/* ============================================================
+   PRESS TICKER — infinite auto-scroll marquee
+   ============================================================ */
+.press-ticker {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Fade edges left + right */
+.press-ticker::before,
+.press-ticker::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 120px;
+  z-index: 2; pointer-events: none;
+}
+.press-ticker::before { left: 0;  background: linear-gradient(to right, var(--white), transparent); }
+.press-ticker::after  { right: 0; background: linear-gradient(to left,  var(--white), transparent); }
+
+/* The moving track */
+.ticker-track {
+  display: flex; align-items: center;
+  width: max-content;
+  animation: ticker-scroll 28s linear infinite;
+}
+.ticker-track:hover { animation-play-state: paused; }
+
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Each item inside the track */
+.ticker-item {
+  display: flex; align-items: center; gap: 0;
+  padding: 1.1rem 2.5rem;
+  white-space: nowrap; flex-shrink: 0;
+}
+
+/* The press name */
+.ticker-name {
+  font-family: var(--font-serif);
+  font-size: .9rem; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--muted); opacity: .55;
+  transition: opacity .2s;
+}
+.ticker-track:hover .ticker-name { opacity: .9; }
+
+/* Diamond separator between items */
+.ticker-sep {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--border-2);
+  margin: 0 2.5rem; flex-shrink: 0;
+}
+
+/* "As seen in" anchor badge — fixed left */
+.ticker-label-wrap {
+  position: absolute; left: 0; top: 0; bottom: 0; z-index: 3;
+  display: flex; align-items: center;
+  padding: 0 1.75rem 0 var(--pad-x);
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  gap: .75rem;
+}
+.ticker-label-text {
+  font-family: var(--font-sans); font-size: .68rem; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+  white-space: nowrap;
+}
+/* Push track right so it doesn't overlap the label */
+.ticker-overflow {
+  overflow: hidden;
+  margin-left: 160px;  /* roughly the width of the label badge */
+}
+
+/* ============================================================
+   BRAND STORY — BREZ-style: white bg, floating image, icon bullets
+   ============================================================ */
+.story {
+  background: var(--white);
+  overflow: hidden;
+}
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 640px;
+  align-items: center;
+}
+
+/* ── Left: full-bleed image with white edge fade ── */
+.story-media {
+  position: relative;
+  overflow: hidden;
+  min-height: 580px;
+}
+
+/* White vignette that fades RIGHT edge into the text panel */
+.story-media::before {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    linear-gradient(to right, transparent 55%, var(--white) 100%),
+    linear-gradient(to bottom, transparent 60%, rgba(255,255,255,.55) 100%);
+}
+
+.story-img {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%;
+  min-height: 480px;
+  object-fit: cover; object-position: center;
+  display: block;
+}
+
+/* Rotating badge — kept, sits top-right */
+.story-badge {
+  position: absolute; top: 2rem; right: 2rem; z-index: 4;
+  width: 90px; height: 90px; border-radius: 50%;
+  background: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  animation: spin 22s linear infinite;
+  box-shadow: 0 4px 20px rgba(200,150,42,.35);
+}
+.story-badge-inner { text-align: center; position: relative; z-index: 1; }
+.story-badge-big { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 900; color: var(--dark); line-height: 1; }
+.story-badge-sub { font-size: .4rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--dark-2); }
+
+/* Process pills — bottom of image area, centered */
+.story-process {
+  position: absolute; bottom: 1.75rem; left: 1.75rem; right: 1.75rem;
+  display: flex; align-items: center; justify-content: center;
+  gap: .5rem; flex-wrap: wrap; z-index: 4;
+}
+.process-pill {
+  display: flex; align-items: center; gap: .45rem;
+  background: var(--dark); border-radius: 999px;
+  padding: .45rem 1rem; color: rgba(255,255,255,.9);
+  font-size: .65rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  white-space: nowrap; box-shadow: 0 2px 12px rgba(0,0,0,.2);
+}
+.process-pill .pill-icon { font-size: .85rem; }
+.process-arrow { color: var(--muted); font-size: .8rem; flex-shrink: 0; }
+
+/* ── Right: text panel — all centered ── */
+.story-text {
+  padding: clamp(3rem,5.5vw,5.5rem) clamp(2.5rem,5vw,5rem);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+  background: var(--white);
+  border-left: 1px solid var(--border);
+}
+.story-text .overline { color: var(--rust); margin-bottom: .875rem; display: block; }
+
+/* Large headline — BREZ style */
+.story-text .h1 {
+  font-size: clamp(2.25rem, 4.5vw, 5rem);
+  margin-bottom: 1.25rem; line-height: .98;
+}
+.story-lead {
+  font-size: 1rem; line-height: 1.72;
+  color: var(--dark-2); margin-bottom: 1.75rem; max-width: 440px;
+}
+
+/* Icon bullet rows — BREZ style, centered */
+.story-bullets {
+  display: flex; flex-direction: column; gap: 1.375rem;
+  margin-bottom: 2.25rem; max-width: 440px; width: 100%;
+}
+.story-bullet {
+  display: flex; align-items: flex-start; gap: 1.125rem;
+  text-align: left;
+}
+.bullet-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 1rem; margin-top: .05rem;
+}
+.bullet-text { display: flex; flex-direction: column; }
+.bullet-title { font-weight: 700; font-size: .9375rem; color: var(--dark); margin-bottom: .2rem; }
+.bullet-desc  { font-size: .85rem; color: var(--muted); line-height: 1.55; }
+
+/* Stats row */
+.story-stats {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  border: 1px solid var(--border);
+  margin: 0 0 1.75rem;
+}
+.story-stat {
+  padding: 1rem 1.375rem;
+  border-right: 1px solid var(--border);
+}
+.story-stat:last-child { border-right: none; }
+.stat-n { font-family: var(--font-serif); font-size: 2.25rem; font-weight: 900; color: var(--dark); line-height: 1; margin-bottom: .2rem; }
+.stat-l { font-size: .6rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* Ingredient tag pills */
+.story-tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 2rem; justify-content: center; }
+.story-tag {
+  display: flex; align-items: center; gap: .35rem;
+  background: var(--cream); border: 1px solid var(--border);
+  padding: .3rem .8rem; border-radius: 999px;
+  font-size: .7rem; font-weight: 600; color: var(--dark-2);
+}
+.story-tag .tag-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+/* ============================================================
+   PRODUCTS — mirrors reviews section exactly
+   ============================================================ */
+.products {
+  background: var(--white);
+  padding: clamp(4rem,7vw,7rem) 0 0;
+  overflow: hidden;
+}
+
+/* Large centered headline — same as .reviews-headline */
+.products-headline {
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 6.5rem);
+  font-weight: 900; line-height: 1; letter-spacing: -.03em;
+  color: var(--dark); margin-bottom: 2.5rem;
+  padding: 0 var(--pad-x);
+}
+
+/* Pill row — same as .reviews-pill-row */
+.prod-pill-row {
+  display: flex; justify-content: center;
+  margin-bottom: clamp(3rem,5vw,5rem); padding: 0 var(--pad-x);
+}
+.prod-pill {
+  display: flex; align-items: center;
+  background: #F1EDE6; border-radius: 999px;
+  padding: .625rem .625rem .625rem 1.75rem;
+  gap: 1.5rem; flex-wrap: wrap; justify-content: center;
+}
+.prod-pill-rating {
+  display: flex; align-items: center; gap: .625rem;
+  font-size: .9375rem; font-weight: 600; color: var(--dark); white-space: nowrap;
+}
+.prod-pill-stars { font-size: 1.1rem; letter-spacing: 1px; }
+.prod-pill-cta {
+  display: inline-flex; align-items: center; gap: .75rem;
+  background: var(--dark); color: var(--white);
+  padding: .75rem 1.625rem; border-radius: 999px;
+  font-size: .875rem; font-weight: 700; text-decoration: none;
+  transition: background .2s, transform .2s; white-space: nowrap;
+}
+.prod-pill-cta:hover { background: var(--rust); transform: scale(1.03); }
+.prod-pill-cta-arrow {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,.18);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.prod-pill-cta-arrow svg { width: 16px; height: 16px; }
+
+/* Swiper wrapper — same as reviews */
+.prod-swiper-wrap {
+  position: relative; width: 92vw; margin: 0 auto;
+}
+.products-swiper {
+  padding: .5rem .25rem 1rem !important;
+  overflow: visible !important;
+}
+.products-swiper .swiper-slide { height: auto; }
+
+/* Product card — mirrors rev-card */
+.slide-card {
+  background: var(--white);
+  border: 1px solid #E0D8CE;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  height: 100%;
+  transition: box-shadow .25s, transform .25s;
+  cursor: pointer;
+}
+.slide-card:hover {
+  box-shadow: 0 12px 36px rgba(28,20,9,.1);
+  transform: translateY(-4px);
+}
+
+/* Card image */
+.slide-img-wrap {
+  position: relative; overflow: hidden;
+  aspect-ratio: 1; background: var(--cream-2); flex-shrink: 0;
+}
+.slide-img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transition: transform .55s ease; display: block;
+}
+.slide-card:hover .slide-img { transform: scale(1.06); }
+
+/* Rank badge */
+.slide-rank {
+  position: absolute; top: .75rem; left: .75rem; z-index: 2;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(18,10,3,.82); color: var(--white);
+  font-size: .6rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+/* Pill badge */
+.slide-badge {
+  position: absolute; top: .75rem; right: .75rem; z-index: 2;
+  padding: .3rem .7rem; border-radius: 999px;
+  font-size: .58rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+}
+.sb-sale  { background: #E63B2E; color: #fff; }
+.sb-hot   { background: #E84020; color: #fff; }
+.sb-new   { background: #1A0F05; color: #fff; }
+.sb-value { background: var(--gold); color: #1A0F05; }
+.sb-save  { background: #E63B2E; color: #fff; }
+
+/* Card body */
+.slide-body {
+  padding: 1.125rem 1.25rem 1.125rem;
+  display: flex; flex-direction: column; flex: 1;
+}
+.slide-cat {
+  font-size: .6rem; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: .35rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.slide-name {
+  font-family: var(--font-serif); font-size: 1rem; font-weight: 700;
+  color: var(--dark); line-height: 1.3; margin-bottom: .5rem;
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.slide-stars {
+  display: flex; align-items: center; gap: .375rem; margin-bottom: .875rem;
+}
+.slide-stars .stars { color: var(--dark); font-size: .85rem; letter-spacing: .5px; }
+.slide-stars .star-ct { font-size: .72rem; color: var(--muted); }
+
+/* Divider before price — matches review card rhythm */
+.slide-divider { border: none; border-top: 1px solid var(--border); margin-bottom: .875rem; }
+
+.slide-pricing {
+  display: flex; align-items: baseline; gap: .45rem; margin-bottom: .875rem;
+}
+.slide-price { font-family: var(--font-serif); font-size: 1.125rem; font-weight: 800; color: var(--dark); }
+.slide-was   { font-size: .82rem; color: var(--muted); text-decoration: line-through; }
+
+/* Add to Cart — full-width, sits at bottom */
+.slide-atc {
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+  width: 100%; padding: .8rem 1rem;
+  background: var(--dark); color: var(--white);
+  border: none; border-radius: 8px;
+  font-size: .8rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  cursor: pointer; transition: background .2s; margin-top: auto;
+}
+.slide-atc:hover { background: var(--rust); }
+
+/* Swiper nav arrows — same as reviews */
+.prod-swiper-wrap .swiper-button-next,
+.prod-swiper-wrap .swiper-button-prev {
+  width: 42px !important; height: 42px !important; border-radius: 50%;
+  background: var(--white) !important; border: 1.5px solid var(--border);
+  box-shadow: 0 4px 16px rgba(28,20,9,.1);
+  color: var(--dark) !important; top: 38% !important; transition: all .2s;
+}
+.prod-swiper-wrap .swiper-button-next:hover,
+.prod-swiper-wrap .swiper-button-prev:hover {
+  background: var(--dark) !important; color: var(--white) !important; border-color: var(--dark);
+}
+.prod-swiper-wrap .swiper-button-next  { right: -8px !important; }
+.prod-swiper-wrap .swiper-button-prev  { left:  -8px !important; }
+.prod-swiper-wrap .swiper-button-next::after,
+.prod-swiper-wrap .swiper-button-prev::after { font-size: .8rem !important; font-weight: 900 !important; }
+
+/* sec-head kept for other sections */
+.sec-head { text-align: center; margin-bottom: clamp(2.5rem,5vw,4rem); }
+.sec-head .overline { display: block; margin-bottom: .875rem; }
+.sec-head .h1 { margin-bottom: .625rem; }
+.sec-head .sub { font-size: 1.0625rem; color: var(--muted); max-width: 480px; margin: 0 auto; }
+.stars { color: var(--gold); font-size: .875rem; letter-spacing: 1px; }
+.star-ct { font-size: .78rem; color: var(--muted); }
+
+/* ============================================================
+   BENEFITS — clean cream, bento-style feature grid
+   ============================================================ */
+.benefits {
+  background: var(--cream);
+  padding-top: clamp(4rem,7vw,7rem);
+  padding-bottom: clamp(4rem,7vw,7rem);
+}
+.benefits .sec-head .overline { color: var(--rust); }
+.benefits .sec-head .h1 { color: var(--dark); }
+.benefits .sec-head .sub { color: var(--muted); }
+
+/* Bento grid — row 1: 1 wide + 2 stacked | row 2: 3 equal */
+.ben-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1.125rem;
+  margin-top: 3rem;
+}
+
+/* Featured large cell spans 2 rows */
+.ben-item-featured {
+  grid-row: 1 / 3;
+  background: var(--dark); color: var(--white);
+  padding: 3rem 2.5rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  border-radius: 16px; overflow: hidden; position: relative;
+  min-height: 400px;
+}
+.ben-item-featured::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 70% at 30% 80%, rgba(200,150,42,.18) 0%, transparent 60%);
+}
+.ben-feat-top { position: relative; z-index: 1; }
+.ben-feat-icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: rgba(200,150,42,.18); border: 1px solid rgba(200,150,42,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; margin-bottom: 1.75rem;
+}
+.ben-feat-num {
+  font-family: var(--font-serif); font-size: clamp(3.5rem,6vw,6rem);
+  font-weight: 900; color: var(--gold); line-height: 1;
+  letter-spacing: -.03em; margin-bottom: .375rem;
+}
+.ben-feat-title {
+  font-family: var(--font-serif); font-size: 1.375rem; font-weight: 700;
+  color: var(--white); margin-bottom: .625rem;
+}
+.ben-feat-desc { font-size: .875rem; color: rgba(255,255,255,.55); line-height: 1.65; max-width: 280px; }
+.ben-feat-bottom { position: relative; z-index: 1; margin-top: 2rem; }
+.ben-feat-tag {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: rgba(200,150,42,.15); border: 1px solid rgba(200,150,42,.3);
+  color: var(--gold); padding: .4rem 1rem; border-radius: 999px;
+  font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+}
+
+/* Regular feature cells */
+.ben-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.875rem 2rem;
+  display: flex; flex-direction: column;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.ben-item:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(28,20,9,.09); }
+
+.ben-icon {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--cream); display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: 1.25rem; flex-shrink: 0;
+}
+.ben-num {
+  font-family: var(--font-serif); font-size: 2.75rem; font-weight: 900;
+  color: var(--gold); line-height: 1; margin-bottom: .25rem; letter-spacing: -.02em;
+}
+.ben-title {
+  font-family: var(--font-serif); font-size: 1.05rem; font-weight: 700;
+  color: var(--dark); margin-bottom: .4rem;
+}
+.ben-desc { font-size: .8375rem; color: var(--muted); line-height: 1.6; }
+
+/* ============================================================
+   TESTIMONIALS — BREZ-style: big headline, pill CTA, slider cards
+   ============================================================ */
+.testimonials {
+  background: var(--white);
+  padding: clamp(4rem,7vw,7rem) 0 0;
+  overflow: hidden;
+}
+
+/* Large centered headline */
+.reviews-headline {
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 6.5rem);
+  font-weight: 900; line-height: 1; letter-spacing: -.03em;
+  color: var(--dark); margin-bottom: 2.5rem;
+  padding: 0 var(--pad-x);
+}
+
+/* Rating + CTA pill */
+.reviews-pill-row {
+  display: flex; justify-content: center;
+  margin-bottom: clamp(3rem,5vw,5rem); padding: 0 var(--pad-x);
+}
+.reviews-pill {
+  display: flex; align-items: center;
+  background: #F1EDE6; border-radius: 999px;
+  padding: .625rem .625rem .625rem 1.75rem;
+  gap: 1.5rem; flex-wrap: wrap; justify-content: center;
+}
+.pill-rating {
+  display: flex; align-items: center; gap: .625rem;
+  font-size: .9375rem; font-weight: 600; color: var(--dark);
+  white-space: nowrap;
+}
+.pill-stars { color: var(--dark); font-size: 1.1rem; letter-spacing: 1px; }
+.pill-cta {
+  display: inline-flex; align-items: center; gap: .75rem;
+  background: var(--gold); color: var(--white);
+  padding: .75rem 1.625rem; border-radius: 999px;
+  font-size: .875rem; font-weight: 700; text-decoration: none;
+  transition: background .2s, transform .2s;
+  white-space: nowrap;
+}
+.pill-cta:hover { background: var(--rust); transform: scale(1.03); }
+.pill-cta-arrow {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,.25);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.pill-cta-arrow svg { width: 16px; height: 16px; }
+
+/* Swiper wrapper */
+.reviews-swiper-wrap {
+  position: relative; width: 92vw; margin: 0 auto;
+}
+.reviews-swiper {
+  padding: .5rem .25rem 1rem !important;
+  overflow: visible !important;
+}
+.reviews-swiper .swiper-slide { width: 400px; height: auto; }
+
+/* Individual review card */
+.rev-card {
+  background: var(--white);
+  border: 1px solid #E0D8CE;
+  border-radius: 14px;
+  padding: 1.625rem 1.5rem 1.25rem;
+  display: flex; flex-direction: column;
+  height: 100%; box-sizing: border-box;
+  transition: box-shadow .25s;
+}
+.rev-card:hover { box-shadow: 0 12px 36px rgba(28,20,9,.09); }
+
+/* Top row: stars + time */
+.rev-top {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: .875rem;
+}
+.rev-stars { color: var(--dark); font-size: 1.1rem; letter-spacing: 1px; }
+.rev-time { font-size: .75rem; color: var(--muted); }
+
+/* Review title */
+.rev-title {
+  font-weight: 700; font-size: .9375rem; color: var(--dark);
+  margin-bottom: .625rem;
+}
+
+/* Review body text — first part highlighted rust */
+.rev-body {
+  font-size: .875rem; line-height: 1.68; flex: 1;
+  margin-bottom: 1.25rem;
+}
+.rev-body-highlight { color: var(--rust); }
+.rev-read-more {
+  color: var(--muted); text-decoration: underline; cursor: pointer;
+  font-size: .875rem;
+}
+
+/* Divider */
+.rev-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 1rem; }
+
+/* Author row */
+.rev-author-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.rev-author-name { font-weight: 600; font-size: .8125rem; color: var(--dark); }
+.rev-verified {
+  display: flex; align-items: center; gap: .3rem;
+  font-size: .75rem; color: var(--muted); font-weight: 500;
+}
+.rev-verified-badge {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--dark); color: var(--white);
+  font-size: .6rem; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Product reviewed row */
+.rev-product {
+  display: flex; align-items: center; gap: .75rem;
+  background: var(--cream); border-radius: 8px;
+  padding: .625rem .875rem; margin-bottom: .875rem;
+}
+.rev-product-img {
+  width: 38px; height: 38px; border-radius: 6px; flex-shrink: 0;
+  object-fit: cover;
+}
+.rev-product-thumb {
+  width: 38px; height: 38px; border-radius: 6px; flex-shrink: 0;
+  background: linear-gradient(135deg,#C8962A,#3D2C08);
+}
+.rev-product-label { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.rev-product-name { font-size: .8rem; font-weight: 700; color: var(--dark); }
+
+/* Helpful row */
+.rev-helpful {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 1rem; font-size: .72rem; color: var(--muted);
+}
+.helpful-btn {
+  display: inline-flex; align-items: center; gap: .35rem;
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: .72rem; transition: color .18s;
+}
+.helpful-btn:hover { color: var(--dark); }
+
+/* Swiper nav arrows */
+.reviews-swiper-wrap .swiper-button-next,
+.reviews-swiper-wrap .swiper-button-prev {
+  width: 42px !important; height: 42px !important; border-radius: 50%;
+  background: var(--white) !important; border: 1.5px solid var(--border);
+  box-shadow: 0 4px 16px rgba(28,20,9,.1);
+  color: var(--dark) !important; top: 40% !important;
+  transition: all .2s;
+}
+.reviews-swiper-wrap .swiper-button-next:hover,
+.reviews-swiper-wrap .swiper-button-prev:hover {
+  background: var(--dark) !important; color: var(--white) !important;
+  border-color: var(--dark);
+}
+.reviews-swiper-wrap .swiper-button-next  { right: -8px !important; }
+.reviews-swiper-wrap .swiper-button-prev  { left:  -8px !important; }
+.reviews-swiper-wrap .swiper-button-next::after,
+.reviews-swiper-wrap .swiper-button-prev::after { font-size: .8rem !important; font-weight: 900 !important; }
+
+/* Press strip */
+.press-strip {
+  background: var(--dark); margin-top: clamp(3rem,5vw,5rem);
+  padding: 2rem var(--pad-x);
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 2.5rem;
+}
+.press-strip-label {
+  font-size: .65rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: rgba(255,255,255,.3); white-space: nowrap;
+}
+.press-strip-sep { width: 1px; height: 18px; background: rgba(255,255,255,.1); flex-shrink: 0; }
+.press-strip-logos { display: flex; align-items: center; gap: 2.25rem; flex-wrap: wrap; justify-content: center; }
+.press-logo-item {
+  font-family: var(--font-serif); font-size: .875rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: rgba(255,255,255,.32); transition: color .2s; cursor: default;
+}
+.press-logo-item:hover { color: var(--gold); }
+.check-gr { color: #2E9D4E; }
+
+/* ============================================================
+   UGC STRIP
+   ============================================================ */
+.ugc-strip { background: var(--cream-3); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.5rem 0; }
+.ugc-lbl { text-align: center; margin-bottom: 1.25rem; }
+.ugc-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: .625rem; max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad-x); }
+.ugc-cell { aspect-ratio: 1; overflow: hidden; position: relative; cursor: pointer; }
+.ugc-photo { width: 100%; height: 100%; transition: transform .45s ease; }
+.ugc-cell:hover .ugc-photo { transform: scale(1.07); }
+.ugc-ov { position: absolute; inset: 0; background: rgba(24,15,5,.55); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .28s; font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--white); }
+.ugc-cell:hover .ugc-ov { opacity: 1; }
+.ph-u1 { background: linear-gradient(135deg,#C8962A,#8B6914 50%,#3D2C08); }
+.ph-u2 { background: linear-gradient(135deg,#6B3018,#3D1A08 50%,#180F05); }
+.ph-u3 { background: linear-gradient(135deg,#C83A1A,#8B2009 50%,#2D0A03); }
+.ph-u4 { background: linear-gradient(135deg,#4A1A6B,#2D0A40 50%,#120018); }
+.ph-u5 { background: linear-gradient(135deg,#2D4A1E,#4A7B2E 50%,#7AB840); }
+.ph-u6 { background: linear-gradient(135deg,#2C1F0F,#5C3D1E 50%,#C8962A); }
+
+/* ============================================================
+   RECIPES / EAT IT YOUR WAY — dark editorial 4-col grid
+   ============================================================ */
+.recipes {
+  background: #0D0804;
+  padding-top: clamp(4rem, 7vw, 7rem);
+  padding-bottom: clamp(4rem, 7vw, 7rem);
+}
+
+/* Big centered headline — mirrors products/reviews */
+.recipes-headline {
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 6.5rem);
+  font-weight: 900; line-height: 1; letter-spacing: -.03em;
+  color: var(--white); margin-bottom: 1.25rem;
+  padding: 0 var(--pad-x);
+}
+.recipes-sub {
+  text-align: center; font-size: clamp(.875rem,1.5vw,1.05rem);
+  color: rgba(255,255,255,.45); max-width: 480px;
+  margin: 0 auto clamp(3rem,5vw,5rem);
+  padding: 0 var(--pad-x); line-height: 1.6;
+}
+.recipes .sec-head .overline { color: var(--gold); }
+.recipes .sec-head .h1 { color: var(--white); }
+.recipes .sec-head .sub { color: rgba(255,255,255,.45); }
+
+/* 4-column card grid */
+.rec-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+
+/* Each card: tall image with overlay content */
+.rec-card {
+  position: relative; overflow: hidden;
+  border-radius: 14px;
+  aspect-ratio: 3/4;
+  cursor: pointer;
+  background: #1A0F06;
+}
+
+/* Real photo */
+.rec-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transition: transform .7s cubic-bezier(.25,.46,.45,.94);
+  filter: saturate(.8) brightness(.75);
+}
+.rec-card:hover .rec-img {
+  transform: scale(1.08);
+  filter: saturate(1) brightness(.85);
+}
+
+/* Gradient scrim */
+.rec-scrim {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(8,4,1,.96)  0%,
+    rgba(8,4,1,.55)  45%,
+    rgba(8,4,1,.1)   75%,
+    transparent      100%
+  );
+  transition: opacity .35s;
+}
+
+/* Tag pill top-left */
+.rec-tag-pill {
+  position: absolute; top: 1.125rem; left: 1.125rem; z-index: 3;
+  padding: .3rem .8rem; border-radius: 999px;
+  background: rgba(255,255,255,.14); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.2);
+  font-size: .62rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(255,255,255,.9);
+}
+
+/* Content overlay — always visible at bottom */
+.rec-content {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 2; padding: 1.5rem;
+}
+.rec-meta-row {
+  display: flex; gap: 1rem; margin-bottom: .625rem;
+}
+.rec-meta-row span {
+  font-size: .7rem; color: rgba(255,255,255,.5);
+  display: flex; align-items: center; gap: .3rem;
+}
+.rec-title {
+  font-family: var(--font-serif); font-size: 1.15rem; font-weight: 800;
+  color: var(--white); line-height: 1.2; margin-bottom: .5rem;
+  letter-spacing: -.01em;
+}
+.rec-desc {
+  font-size: .8rem; color: rgba(255,255,255,.55); line-height: 1.55;
+  max-height: 0; overflow: hidden;
+  transition: max-height .4s ease, opacity .35s;
+  opacity: 0;
+}
+.rec-card:hover .rec-desc { max-height: 80px; opacity: 1; }
+
+/* Arrow link */
+.rec-arrow {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--gold);
+  margin-top: .875rem; text-decoration: none;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .3s .05s, transform .3s .05s;
+}
+.rec-card:hover .rec-arrow { opacity: 1; transform: translateY(0); }
+.rec-arrow svg { width: 13px; height: 13px; transition: transform .2s; }
+.rec-arrow:hover svg { transform: translateX(3px); }
+
+/* Bottom CTA */
+.rec-explore { text-align: center; margin-top: 3rem; }
+
+/* ============================================================
+   SUBSCRIPTION — dark split: full-bleed image left, widget right
+   ============================================================ */
+.subscription {
+  background: #0D0804;
+  overflow: hidden;
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 680px;
+}
+
+/* ── Left: full-bleed image with content overlay ── */
+.sub-media {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.sub-media-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; object-position: center;
+  filter: brightness(.65) saturate(.9);
+  transition: transform .8s ease;
+}
+.subscription:hover .sub-media-img { transform: scale(1.03); }
+.sub-media-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(8,4,1,.92) 0%, rgba(8,4,1,.4) 50%, transparent 100%);
+}
+.sub-media-content {
+  position: relative; z-index: 2;
+  padding: clamp(2.5rem,4vw,4rem);
+}
+.sub-media-overline {
+  font-size: .68rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block;
+}
+.sub-media-title {
+  font-family: var(--font-serif); font-size: clamp(2rem,3.5vw,3.5rem);
+  font-weight: 900; color: var(--white); line-height: 1.0;
+  letter-spacing: -.025em; margin-bottom: 1.25rem;
+}
+.sub-media-title em { color: var(--gold); font-style: italic; }
+.sub-media-desc {
+  font-size: .9375rem; color: rgba(255,255,255,.65);
+  line-height: 1.7; max-width: 380px; margin-bottom: 2rem;
+}
+.sub-perks {
+  list-style: none; display: flex; flex-direction: column; gap: .75rem; margin-bottom: 2.25rem;
+}
+.sub-perks li {
+  display: flex; align-items: center; gap: .75rem;
+  font-size: .875rem; color: rgba(255,255,255,.82);
+}
+.perk-dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(200,150,42,.2); border: 1px solid rgba(200,150,42,.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; color: var(--gold); flex-shrink: 0;
+}
+
+/* ── Right: white subscription widget ── */
+.sub-widget-wrap {
+  background: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(3rem,5vw,5rem) clamp(2.5rem,4vw,4rem);
+}
+.sub-widget {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  width: 100%; max-width: 420px;
+  box-shadow: 0 8px 40px rgba(28,20,9,.08);
+}
+.sw-badge {
+  background: var(--gold); color: var(--white);
+  padding: .32rem .875rem; font-size: .6rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  display: inline-block; border-radius: 999px; margin-bottom: 1.5rem;
+}
+.sw-title { font-family: var(--font-serif); font-size: 1.375rem; font-weight: 800; color: var(--dark); margin-bottom: .35rem; }
+.sw-sub { font-size: .84rem; color: var(--muted); margin-bottom: 1.5rem; }
+.sw-option {
+  border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 1.125rem; margin-bottom: .625rem;
+  cursor: pointer; transition: all .2s;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.sw-option.sel { border-color: var(--dark); background: rgba(24,15,5,.03); }
+.sw-opt-l { display: flex; align-items: center; gap: .75rem; }
+.radio-ring {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--border-2); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; transition: all .2s;
+}
+.sw-option.sel .radio-ring { border-color: var(--dark); background: var(--dark); }
+.sw-option.sel .radio-ring::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: white; }
+.sw-opt-lbl { font-weight: 700; font-size: .9375rem; color: var(--dark); display: block; margin-bottom: .2rem; }
+.sw-opt-s { font-size: .78rem; color: var(--muted); }
+.sw-opt-price { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 800; color: var(--dark); text-align: right; }
+.sw-save {
+  font-size: .6rem; font-weight: 700; color: #2E9D4E;
+  background: rgba(46,157,78,.1); padding: .2rem .5rem;
+  border-radius: 999px; margin-top: .25rem; display: block; text-align: right;
+}
+.sw-cta {
+  width: 100%; padding: 1.125rem; background: var(--dark); color: var(--white);
+  border: none; border-radius: 10px; font-size: .875rem; font-weight: 800;
+  letter-spacing: .06em; text-transform: uppercase; cursor: pointer;
+  transition: background .2s; margin-top: .875rem;
+}
+.sw-cta:hover { background: var(--rust); }
+.sw-guar {
+  text-align: center; margin-top: .875rem; font-size: .75rem;
+  color: var(--muted); display: flex; align-items: center; justify-content: center; gap: .35rem;
+}
+
+/* ============================================================
+   NEWSLETTER
+   ============================================================ */
+.newsletter { background: var(--cream); border-top: 1px solid var(--border); padding: clamp(5rem,9vw,9rem) 0; }
+.nl-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.nl-content .overline { color: var(--rust); display: block; margin-bottom: .875rem; }
+.nl-content .h2 { margin-bottom: 1rem; }
+.nl-content p { color: var(--muted); font-size: .975rem; line-height: 1.72; }
+.nl-form { display: flex; flex-direction: column; gap: .875rem; }
+.nl-offer { background: var(--cream-2); border: 1px solid var(--border); padding: 1.125rem; display: flex; align-items: center; gap: .875rem; }
+.nl-offer-icon { font-size: 1.65rem; flex-shrink: 0; }
+.nl-offer-text { font-size: .85rem; color: var(--dark-2); line-height: 1.5; }
+.nl-offer-text strong { font-weight: 800; color: var(--dark); }
+.nl-row { display: flex; }
+.nl-input { flex: 1; padding: 1rem 1.2rem; border: 1.5px solid var(--border-2); border-right: none; font-size: .9375rem; font-family: var(--font-sans); background: var(--white); color: var(--dark); outline: none; transition: border-color .2s; }
+.nl-input::placeholder { color: var(--muted); }
+.nl-input:focus { border-color: var(--dark); }
+.nl-submit { padding: 1rem 1.6rem; background: var(--dark); color: var(--white); border: 1.5px solid var(--dark); font-size: .78rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; cursor: pointer; transition: all .2s; white-space: nowrap; }
+.nl-submit:hover { background: var(--rust); border-color: var(--rust); }
+.nl-disclaimer { font-size: .72rem; color: var(--muted); }
+
+/* ============================================================
+   FOOTER — premium D2C redesign
+   ============================================================ */
+.footer { background: #120C04; color: rgba(255,255,255,.6); overflow: hidden; }
+
+/* ── CTA top strip ── */
+.footer-cta {
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  padding: clamp(3rem,5vw,5rem) 0;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3rem; align-items: center;
+}
+.footer-cta-left { display: flex; flex-direction: column; justify-content: center; }
+.footer-cta-overline {
+  font-size: .68rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: .75rem;
+}
+.footer-cta-title {
+  font-family: var(--font-serif); font-size: clamp(1.75rem,3.5vw,3rem);
+  font-weight: 900; color: var(--white); line-height: 1.05;
+  letter-spacing: -.02em; margin-bottom: 0;
+}
+.footer-cta-title em { color: var(--gold); font-style: italic; }
+.footer-cta-right { display: flex; flex-direction: column; gap: .875rem; }
+.ft-nl-row { display: flex; }
+.ft-nl-input {
+  flex: 1; padding: .9375rem 1.25rem;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+  border-right: none; color: var(--white);
+  font-size: .875rem; font-family: var(--font-sans); outline: none;
+  transition: border-color .2s; border-radius: 0;
+}
+.ft-nl-input::placeholder { color: rgba(255,255,255,.3); }
+.ft-nl-input:focus { border-color: var(--gold); }
+.ft-nl-btn {
+  padding: .9375rem 1.75rem; background: var(--gold); color: var(--white);
+  border: none; font-size: .78rem; font-weight: 800; letter-spacing: .07em;
+  text-transform: uppercase; cursor: pointer; transition: background .2s; white-space: nowrap;
+}
+.ft-nl-btn:hover { background: var(--gold-2); }
+.ft-nl-note { font-size: .72rem; color: rgba(255,255,255,.3); }
+
+/* ── Main links grid ── */
+.footer-main {
+  padding: 4rem 0 3.5rem;
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 2.5rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+/* Brand column */
+.ft-brand { display: flex; flex-direction: column; }
+.ft-logo {
+  font-family: var(--font-serif); font-size: 1.75rem; font-weight: 900;
+  color: var(--white); letter-spacing: -.02em; line-height: 1;
+  margin-bottom: .3rem;
+}
+.ft-logo-sub {
+  font-size: .44rem; font-weight: 700; letter-spacing: .24em;
+  text-transform: uppercase; color: rgba(255,255,255,.28);
+  font-family: var(--font-sans); display: block; margin-bottom: 1.375rem;
+}
+.ft-tagline {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: .9375rem; color: rgba(255,255,255,.4);
+  line-height: 1.6; margin-bottom: 1.75rem; max-width: 240px;
+}
+
+/* Social icons row */
+.ft-social { display: flex; gap: .625rem; margin-bottom: 2rem; }
+.social-btn {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.6); transition: all .22s; text-decoration: none;
+}
+.social-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--white); }
+.social-btn svg { width: 17px; height: 17px; }
+
+/* Payment icons */
+.pay-icons { display: flex; gap: .4rem; flex-wrap: wrap; }
+.pay-icon {
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+  padding: .3rem .6rem; font-size: .6rem; font-weight: 800;
+  letter-spacing: .04em; color: rgba(255,255,255,.4); border-radius: 4px;
+}
+
+/* Link columns */
+.ft-col h4 {
+  font-family: var(--font-sans); font-size: .65rem; font-weight: 800;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(255,255,255,.9); margin-bottom: 1.5rem;
+}
+.ft-links { list-style: none; display: flex; flex-direction: column; gap: .875rem; }
+.ft-links a {
+  font-size: .875rem; color: rgba(255,255,255,.45);
+  transition: color .18s; text-decoration: none; display: inline-flex; align-items: center; gap: .35rem;
+}
+.ft-links a:hover { color: var(--gold); }
+
+/* ── Bottom bar ── */
+.footer-bot {
+  padding: 1.5rem 0;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.ft-copy { font-size: .775rem; color: rgba(255,255,255,.25); }
+.ft-bot-links { display: flex; gap: 2rem; }
+.ft-bot-links a { font-size: .775rem; color: rgba(255,255,255,.25); transition: color .2s; text-decoration: none; }
+.ft-bot-links a:hover { color: rgba(255,255,255,.6); }
+.ft-bot-right { display: flex; align-items: center; gap: 1.5rem; }
+.ft-bot-badge {
+  font-size: .6rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.1);
+  padding: .3rem .75rem; border-radius: 999px;
+}
+
+/* ============================================================
+   SCROLL ANIMATIONS
+   ============================================================ */
+.fu { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+.fu.vis { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: .1s; }
+.d2 { transition-delay: .2s; }
+.d3 { transition-delay: .3s; }
+.d4 { transition-delay: .4s; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1080px){
+  .rec-grid  { grid-template-columns: 1fr 1fr; }
+  .footer-main { grid-template-columns: 1fr 1fr; }
+  .footer-cta  { grid-template-columns: 1fr; gap: 2rem; }
+  .variety-row { grid-template-columns: 1fr; }
+}
+@media(max-width:880px){
+  .story-grid { grid-template-columns: 1fr; }
+  .story-img { min-height: 420px; }
+  .story-stats { grid-template-columns: repeat(3,1fr); }
+  .ben-grid { grid-template-columns: 1fr 1fr; }
+  .ben-item-featured { grid-row: auto; grid-column: 1 / -1; min-height: auto; }
+  .test-grid { grid-template-columns: 1fr 1fr; }
+  .review-featured { grid-template-columns: 1fr; }
+  .rf-right { display: none; }
+  .rating-stats { gap: 1.75rem; }
+  .subscription { grid-template-columns: 1fr; }
+  .sub-media { min-height: 480px; }
+  .nl-inner  { grid-template-columns: 1fr; gap: 3rem; }
+  .ugc-grid  { grid-template-columns: repeat(4,1fr); }
+  .nav-links { display: none; }
+}
+@media(max-width:620px){
+  .ben-grid  { grid-template-columns: 1fr; }
+  .ben-item-featured { grid-column: auto; }
+  .test-grid { grid-template-columns: 1fr; }
+  .rec-grid  { grid-template-columns: 1fr; }
+  .rec-card  { aspect-ratio: 4/5; }
+  .rating-callout { flex-direction: column; gap: 1.5rem; }
+  .rating-divider { width: 60px; height: 1px; }
+  .review-featured { padding: 2rem; grid-template-columns: 1fr; }
+  .rf-right { display: none; }
+  .footer-main { grid-template-columns: 1fr; }
+  .ft-bot-right { display: none; }
+  .ugc-grid  { grid-template-columns: repeat(3,1fr); }
+  .hero-ctas { flex-direction: column; align-items: flex-start; }
+  .hero-trust { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .press-bar-inner { flex-direction: column; gap: 1.25rem; }
+  .press-sep { display: none; }
+  .press-row { gap: 1.75rem; }
+  .press-vline { display: none; }
+  .story-stats { gap: 1.5rem; }
+  .merch-card { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     ANNOUNCEMENT BAR
+     ════════════════════════════════════════ -->
+<div class="ann-bar">
+  🐄 Free Shipping on orders over <strong>$85</strong> &nbsp;·&nbsp; First order 15% off with code <strong>WAGYU15</strong>
+</div>
+
+<!-- ════════════════════════════════════════
+     HERO WRAP — full-bleed image spans nav + hero
+     ════════════════════════════════════════ -->
+<div class="hero-wrap">
+
+<!-- ════════════════════════════════════════
+     NAVIGATION
+     ════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <!-- Left: navigation links -->
+    <ul class="nav-links">
+      <li><a href="#products" class="has-drop">Shop</a></li>
+      <li><a href="#subscribe">Subscribe &amp; Save</a></li>
+      <li><a href="#">Wholesale</a></li>
+    </ul>
+
+    <!-- Center: logo -->
+    <a href="#" class="nav-logo">
+      <img src="https://carneshabu.com/cdn/shop/files/cs_lablel_transparent_1.png?height=98&v=1771622482" alt="Carne Shabu" style="height:36px;width:auto;display:block;">
+    </a>
+
+    <!-- Right: icon actions -->
+    <div class="nav-actions">
+      <button class="nav-icon" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </button>
+      <button class="nav-icon" aria-label="Account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </button>
+      <button class="nav-cart" id="cartBtn" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="cart-bubble" id="cartCount">0</span>
+      </button>
+    </div>
+
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     HERO — BREZ-style centered layout
+     ════════════════════════════════════════ -->
+<section class="hero">
+
+  <!-- Top: Headline + subtitle -->
+  <div class="hero-text">
+    <h1 class="hero-hl">Snacking has <em>evolved.</em></h1>
+    <p class="hero-sub">
+      Premium Wagyu carne seca — bold flavor, real protein, zero compromise.
+    </p>
+  </div>
+
+  <!-- Bottom: Pill CTA pinned to bottom of viewport -->
+  <a href="#products" class="hero-pill">
+    Shop now
+    <span class="hero-pill-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </span>
+  </a>
+
+</section>
+
+</div><!-- /hero-wrap -->
+
+<!-- ════════════════════════════════════════
+     PRESS TICKER
+     ════════════════════════════════════════ -->
+<div class="press-ticker">
+
+  <!-- Fixed "As Seen In" label -->
+  <div class="ticker-label-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.75" opacity=".6">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>
+    <span class="ticker-label-text">As Seen In</span>
+  </div>
+
+  <!-- Scrolling overflow area -->
+  <div class="ticker-overflow">
+    <!-- track is duplicated so the loop is seamless -->
+    <div class="ticker-track">
+
+      <!-- Set A -->
+      <div class="ticker-item"><span class="ticker-name">Food &amp; Wine</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Eater</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Men's Health</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Bon Appétit</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Forbes</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">The New York Times</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Thrillist</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Tasting Table</span></div>
+      <div class="ticker-sep"></div>
+
+      <!-- Set B — exact duplicate for seamless loop -->
+      <div class="ticker-item"><span class="ticker-name">Food &amp; Wine</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Eater</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Men's Health</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Bon Appétit</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Forbes</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">The New York Times</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Thrillist</span></div>
+      <div class="ticker-sep"></div>
+      <div class="ticker-item"><span class="ticker-name">Tasting Table</span></div>
+      <div class="ticker-sep"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════
+     BRAND STORY
+     ════════════════════════════════════════ -->
+<section class="story" id="story">
+  <div class="story-grid">
+
+    <!-- ── Left: floating image on white ── -->
+    <div class="story-media">
+      <img class="story-img"
+           src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/CARNESHABUFOTOS-289.jpg?v=1772287766"
+           alt="Truffle Sea Salt Wagyu Carne Seca"
+           loading="lazy">
+
+      <!-- Rotating badge -->
+      <div class="story-badge" aria-hidden="true">
+        <svg viewBox="0 0 100 100" style="position:absolute;inset:0;width:100%;height:100%;">
+          <defs><path id="c1" d="M50,50 m-34,0 a34,34 0 1,1 68,0 a34,34 0 1,1 -68,0"/></defs>
+          <text font-size="8.5" font-weight="800" font-family="Inter" letter-spacing="2.5" fill="#180F05">
+            <textPath href="#c1" startOffset="0%">PREMIUM WAGYU · CARNE SECA · AUTHENTIC ·</textPath>
+          </text>
+        </svg>
+        <div class="story-badge-inner">
+          <div class="story-badge-big">100%</div>
+          <div class="story-badge-sub">Wagyu<br>Beef</div>
+        </div>
+      </div>
+
+      <!-- Process pills -->
+      <div class="story-process">
+        <div class="process-pill"><span class="pill-icon">🐄</span> Source Wagyu</div>
+        <span class="process-arrow">→</span>
+        <div class="process-pill"><span class="pill-icon">🌡️</span> Slow-Dry</div>
+        <span class="process-arrow">→</span>
+        <div class="process-pill"><span class="pill-icon">🌶️</span> Bold Season</div>
+      </div>
+    </div>
+
+    <!-- ── Right: text panel ── -->
+    <div class="story-text">
+      <span class="overline fu">Why Carne Shabu</span>
+      <h2 class="h1 fu">The Wagyu<br><em>Difference.</em></h2>
+
+      <p class="story-lead fu d1">
+        We took the crunchy, salty jerky you grew up with and made it with one of the world's most prized cuts of beef.
+      </p>
+
+      <!-- Icon bullets — BREZ style -->
+      <div class="story-bullets fu d2">
+        <div class="story-bullet">
+          <div class="bullet-icon">🐄</div>
+          <div class="bullet-text">
+            <div class="bullet-title">100% Wagyu beef, every bag</div>
+            <div class="bullet-desc">A-grade Wagyu renowned for extraordinary marbling — the same cut prized by the world's best chefs.</div>
+          </div>
+        </div>
+        <div class="story-bullet">
+          <div class="bullet-icon">⚡</div>
+          <div class="bullet-text">
+            <div class="bullet-title">18g protein, zero fillers</div>
+            <div class="bullet-desc">Serious fuel without the junk. Just Wagyu beef, high-quality seasoning, and nothing else.</div>
+          </div>
+        </div>
+        <div class="story-bullet">
+          <div class="bullet-icon">✨</div>
+          <div class="bullet-text">
+            <div class="bullet-title">Bold flavor, clean ingredients</div>
+            <div class="bullet-desc">Slow-dried and lightly seasoned — a crunch that melts in your mouth. Not chewy. Not rubbery. Just impossibly good.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fu d4">
+        <a href="#" class="btn btn-dark btn-lg">
+          Our Full Story
+          <svg class="arr" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     FEATURED PRODUCTS
+     ════════════════════════════════════════ -->
+<section class="products" id="products">
+
+  <!-- Large headline -->
+  <h2 class="products-headline fu">Shop our Wagyu Jerky</h2>
+
+  <!-- Rating + CTA pill — mirrors reviews pill -->
+  <div class="prod-pill-row fu">
+    <div class="prod-pill">
+      <div class="prod-pill-rating">
+        <span class="prod-pill-stars">★★★★★</span>
+        4.9 &nbsp;(440+ reviews)
+      </div>
+      <a href="#" class="prod-pill-cta">
+        View all products
+        <span class="prod-pill-cta-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Swiper -->
+  <div class="prod-swiper-wrap">
+    <div class="swiper products-swiper">
+      <div class="swiper-wrapper">
+
+        <!-- ① Lemon Pepper — The OG -->
+        <div class="swiper-slide">
+          <div class="slide-card">
+            <div class="slide-img-wrap">
+              <img class="slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Untitleddesign.png?v=1772287789" alt="Lemon Pepper Wagyu Carne Seca" loading="lazy">
+              <div class="slide-rank">#1</div>
+              <span class="slide-badge sb-hot">⭐ The OG</span>
+            </div>
+            <div class="slide-body">
+              <div class="slide-cat">Wagyu Carne Seca · 1-Pack</div>
+              <h3 class="slide-name">Lemon Pepper</h3>
+              <div class="slide-stars"><span class="stars">★★★★★</span><span class="star-ct">(148)</span></div>
+              <hr class="slide-divider">
+              <div class="slide-pricing"><span class="slide-price">$11.99</span><span class="slide-was">4-Pack $39.99</span></div>
+              <a href="https://carneshabu.com/products/carne" class="slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ② Spicy Lemon Pepper — La Picosita -->
+        <div class="swiper-slide">
+          <div class="slide-card">
+            <div class="slide-img-wrap">
+              <img class="slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/9.png?v=1772287773" alt="Spicy Lemon Pepper Wagyu Carne Seca" loading="lazy">
+              <div class="slide-rank">#2</div>
+              <span class="slide-badge sb-hot">🔥 La Picosita</span>
+            </div>
+            <div class="slide-body">
+              <div class="slide-cat">Wagyu Carne Seca · 1-Pack</div>
+              <h3 class="slide-name">Spicy Lemon Pepper</h3>
+              <div class="slide-stars"><span class="stars">★★★★★</span><span class="star-ct">(203)</span></div>
+              <hr class="slide-divider">
+              <div class="slide-pricing"><span class="slide-price">$11.99</span><span class="slide-was">20-Pack $179.99</span></div>
+              <a href="https://carneshabu.com/products/spicy-lemon-pepper" class="slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ③ Ghost Pepper -->
+        <div class="swiper-slide">
+          <div class="slide-card">
+            <div class="slide-img-wrap">
+              <img class="slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/10.png?v=1772287756" alt="Ghost Pepper Wagyu Carne Seca" loading="lazy">
+              <div class="slide-rank">#3</div>
+              <span class="slide-badge sb-new">🌶 Ghost Pepper</span>
+            </div>
+            <div class="slide-body">
+              <div class="slide-cat">Wagyu Carne Seca · 1-Pack</div>
+              <h3 class="slide-name">Ghost Pepper</h3>
+              <div class="slide-stars"><span class="stars">★★★★★</span><span class="star-ct">(89)</span></div>
+              <hr class="slide-divider">
+              <div class="slide-pricing"><span class="slide-price">$11.99</span><span class="slide-was">8-Pack $75.99</span></div>
+              <a href="https://carneshabu.com/products/ghost-pepper" class="slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ④ Truffle Sea Salt -->
+        <div class="swiper-slide">
+          <div class="slide-card">
+            <div class="slide-img-wrap">
+              <img class="slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/7_eef26cd0-73e7-40e7-9701-c7a81065762d.png?v=1772287766" alt="Truffle Sea Salt Wagyu Carne Seca" loading="lazy">
+              <div class="slide-rank">#4</div>
+              <span class="slide-badge sb-value">Most Popular</span>
+            </div>
+            <div class="slide-body">
+              <div class="slide-cat">Wagyu Carne Seca · 1-Pack</div>
+              <h3 class="slide-name">Truffle Sea Salt</h3>
+              <div class="slide-stars"><span class="stars">★★★★★</span><span class="star-ct">(217)</span></div>
+              <hr class="slide-divider">
+              <div class="slide-pricing"><span class="slide-price">$11.99</span><span class="slide-was">10-Pack $91.99</span></div>
+              <a href="https://carneshabu.com/products/truffle-sea-salt" class="slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ⑤ Variety Pack -->
+        <div class="swiper-slide">
+          <div class="slide-card">
+            <div class="slide-img-wrap">
+              <img class="slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/13_4cea9abc-683b-4372-bc66-96279e75dcfe.png?v=1772287747" alt="Wagyu Carne Seca Variety Pack" loading="lazy">
+              <div class="slide-rank">#5</div>
+              <span class="slide-badge sb-value">All 4 Flavors</span>
+            </div>
+            <div class="slide-body">
+              <div class="slide-cat">Bundle · All 4 Flavors</div>
+              <h3 class="slide-name">Variety Pack</h3>
+              <div class="slide-stars"><span class="stars">★★★★★</span><span class="star-ct">(312)</span></div>
+              <hr class="slide-divider">
+              <div class="slide-pricing"><span class="slide-price">$39.99</span></div>
+              <a href="https://carneshabu.com/products/variety-pack" class="slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ⑥ Lemon Pepper — 4-Pack -->
+        <div class="swiper-slide">
+          <div class="slide-card">
+            <div class="slide-img-wrap">
+              <img class="slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/LemonPepper.png?v=1771616944" alt="Lemon Pepper 4-Pack" loading="lazy">
+              <div class="slide-rank">#1</div>
+              <span class="slide-badge sb-sale">4-Pack Deal</span>
+            </div>
+            <div class="slide-body">
+              <div class="slide-cat">Wagyu Carne Seca · 4-Pack</div>
+              <h3 class="slide-name">Lemon Pepper — 4-Pack</h3>
+              <div class="slide-stars"><span class="stars">★★★★★</span><span class="star-ct">(148)</span></div>
+              <hr class="slide-divider">
+              <div class="slide-pricing"><span class="slide-price">$39.99</span><span class="slide-was">$47.96</span></div>
+              <a href="https://carneshabu.com/products/carne" class="slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ⑦ Ghost Pepper — 8-Pack -->
+        <div class="swiper-slide">
+          <div class="slide-card">
+            <div class="slide-img-wrap">
+              <img class="slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Ghost_Pepper.png?v=1771616944" alt="Ghost Pepper 8-Pack" loading="lazy">
+              <div class="slide-rank">#3</div>
+              <span class="slide-badge sb-save">Save 20%</span>
+            </div>
+            <div class="slide-body">
+              <div class="slide-cat">Wagyu Carne Seca · 8-Pack</div>
+              <h3 class="slide-name">Ghost Pepper — 8-Pack</h3>
+              <div class="slide-stars"><span class="stars">★★★★★</span><span class="star-ct">(89)</span></div>
+              <hr class="slide-divider">
+              <div class="slide-pricing"><span class="slide-price">$75.99</span><span class="slide-was">$95.92</span></div>
+              <a href="https://carneshabu.com/products/ghost-pepper" class="slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ⑧ Amo Carne Seca Hat -->
+        <div class="swiper-slide">
+          <div class="slide-card">
+            <div class="slide-img-wrap">
+              <img class="slide-img" src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/IMG_8572_1.png?v=1765584004" alt="Amo Carne Seca Hat" loading="lazy" style="object-fit:contain;background:#1a1206;padding:.5rem">
+              <div class="slide-rank">🎩</div>
+              <span class="slide-badge sb-new">Limited</span>
+            </div>
+            <div class="slide-body">
+              <div class="slide-cat">Merch · Corduroy Hat</div>
+              <h3 class="slide-name">Amo Carne Seca Hat</h3>
+              <div class="slide-stars"><span class="stars">★★★★★</span><span class="star-ct">(43)</span></div>
+              <hr class="slide-divider">
+              <div class="slide-pricing"><span class="slide-price">$50.00</span></div>
+              <a href="https://carneshabu.com/products/amo-carne-seca-corduroy-hat" class="slide-atc" target="_blank">Shop Now</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /swiper-wrapper -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div><!-- /swiper -->
+  </div><!-- /prod-swiper-wrap -->
+
+</section>
+
+<!-- ════════════════════════════════════════
+     BENEFITS
+     ════════════════════════════════════════ -->
+<section class="benefits">
+  <div class="container">
+
+    <div class="sec-head fu">
+      <span class="overline">Why Wagyu</span>
+      <h2 class="h1">Snacking Done <em>Right.</em></h2>
+      <p class="sub">Premium ingredients. Bold flavor. Real nutrition.</p>
+    </div>
+
+    <div class="ben-grid">
+
+      <!-- Featured large cell — 100% Wagyu -->
+      <div class="ben-item-featured fu">
+        <div class="ben-feat-top">
+          <div class="ben-feat-icon">🥩</div>
+          <div class="ben-feat-num">100%</div>
+          <div class="ben-feat-title">Premium Wagyu Beef</div>
+          <div class="ben-feat-desc">No mystery meat. Every single bag starts with A-grade Wagyu — renowned worldwide for extraordinary marbling, superior flavor, and that one-of-a-kind melt-in-your-mouth texture.</div>
+        </div>
+        <div class="ben-feat-bottom">
+          <span class="ben-feat-tag">★ The Gold Standard in Beef</span>
+        </div>
+      </div>
+
+      <!-- Small cells — row 1 right -->
+      <div class="ben-item fu d1">
+        <div class="ben-icon">⚡</div>
+        <div class="ben-num">18g+</div>
+        <div class="ben-title">Protein Per Bag</div>
+        <div class="ben-desc">Serious fuel for serious snackers. High protein without sacrificing taste.</div>
+      </div>
+
+      <div class="ben-item fu d2">
+        <div class="ben-icon">✨</div>
+        <div class="ben-num">0g</div>
+        <div class="ben-title">Fillers or Additives</div>
+        <div class="ben-desc">Clean label. Just Wagyu beef and high-quality seasoning — nothing else.</div>
+      </div>
+
+      <!-- Small cells — row 2 right -->
+      <div class="ben-item fu d3">
+        <div class="ben-icon">🌶️</div>
+        <div class="ben-num">3</div>
+        <div class="ben-title">Bold Flavor Profiles</div>
+        <div class="ben-desc">Lemon Pepper · Spicy Lemon Pepper · Ghost Pepper. Pick your heat level.</div>
+      </div>
+
+      <div class="ben-item fu d4">
+        <div class="ben-icon">📦</div>
+        <div class="ben-num">Free</div>
+        <div class="ben-title">Shipping on $85+</div>
+        <div class="ben-desc">Stock up and save. Free nationwide shipping, out the door in 24 hours.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     TESTIMONIALS
+     ════════════════════════════════════════ -->
+<section class="testimonials">
+
+  <!-- Big headline -->
+  <h2 class="reviews-headline fu">What people are saying</h2>
+
+  <!-- Rating + CTA pill -->
+  <div class="reviews-pill-row fu">
+    <div class="reviews-pill">
+      <div class="pill-rating">
+        <span class="pill-stars">★★★★★</span>
+        4.9 &nbsp;(440+ reviews)
+      </div>
+      <a href="#products" class="pill-cta">
+        Shop Jerky
+        <span class="pill-cta-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Review cards Swiper -->
+  <div class="reviews-swiper-wrap">
+    <div class="swiper reviews-swiper">
+      <div class="swiper-wrapper">
+
+        <!-- Review 1 -->
+        <div class="swiper-slide">
+          <div class="rev-card">
+            <div class="rev-top">
+              <span class="rev-stars">★★★★★</span>
+              <span class="rev-time">2 days ago</span>
+            </div>
+            <div class="rev-title">Best jerky I've ever had</div>
+            <div class="rev-body">
+              <span class="rev-body-highlight">I've tried every beef jerky on the market. Nothing comes close. The Wagyu makes it melt in your mouth while still being crunchy — I didn't know that was possible.</span>
+            </div>
+            <hr class="rev-divider">
+            <div class="rev-author-row">
+              <span class="rev-author-name">Marco R.</span>
+              <span class="rev-verified">
+                Verified Buyer
+                <span class="rev-verified-badge">✓</span>
+              </span>
+            </div>
+            <div class="rev-product">
+              <div class="rev-product-thumb" style="background:linear-gradient(135deg,#C8962A,#3D2C08);"></div>
+              <div>
+                <div class="rev-product-label">Reviewing</div>
+                <div class="rev-product-name">Lemon Pepper Wagyu Jerky</div>
+              </div>
+            </div>
+            <div class="rev-helpful">
+              Was this helpful?
+              <button class="helpful-btn">👍 0</button>
+              <button class="helpful-btn">👎 0</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="swiper-slide">
+          <div class="rev-card">
+            <div class="rev-top">
+              <span class="rev-stars">★★★★★</span>
+              <span class="rev-time">5 days ago</span>
+            </div>
+            <div class="rev-title">Spicy Lemon Pepper is elite</div>
+            <div class="rev-body">
+              <span class="rev-body-highlight">Bought the variety pack and I'm already re-ordering just the Spicy Lemon Pepper. The heat builds perfectly — not overwhelming, just absolutely right. My new snack obsession.</span>
+            </div>
+            <hr class="rev-divider">
+            <div class="rev-author-row">
+              <span class="rev-author-name">Sofia L.</span>
+              <span class="rev-verified">
+                Verified Buyer
+                <span class="rev-verified-badge">✓</span>
+              </span>
+            </div>
+            <div class="rev-product">
+              <div class="rev-product-thumb" style="background:linear-gradient(135deg,#C83A1A,#2D0A03);"></div>
+              <div>
+                <div class="rev-product-label">Reviewing</div>
+                <div class="rev-product-name">Spicy Lemon Pepper Jerky</div>
+              </div>
+            </div>
+            <div class="rev-helpful">
+              Was this helpful?
+              <button class="helpful-btn">👍 0</button>
+              <button class="helpful-btn">👎 0</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="swiper-slide">
+          <div class="rev-card">
+            <div class="rev-top">
+              <span class="rev-stars">★★★★★</span>
+              <span class="rev-time">1 week ago</span>
+            </div>
+            <div class="rev-title">Bien Rica — the real deal</div>
+            <div class="rev-body">
+              <span class="rev-body-highlight">As someone who grew up eating carne seca, this is authentic. Premium quality with that real flavor. Wagyu just takes it to a whole other level. My family orders two variety packs every month.</span>
+            </div>
+            <hr class="rev-divider">
+            <div class="rev-author-row">
+              <span class="rev-author-name">Javier V.</span>
+              <span class="rev-verified">
+                Verified Buyer
+                <span class="rev-verified-badge">✓</span>
+              </span>
+            </div>
+            <div class="rev-product">
+              <div class="rev-product-thumb" style="background:linear-gradient(135deg,#2C1F0F,#C8962A);"></div>
+              <div>
+                <div class="rev-product-label">Reviewing</div>
+                <div class="rev-product-name">Wagyu Jerky Variety Pack</div>
+              </div>
+            </div>
+            <div class="rev-helpful">
+              Was this helpful?
+              <button class="helpful-btn">👍 0</button>
+              <button class="helpful-btn">👎 0</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 4 -->
+        <div class="swiper-slide">
+          <div class="rev-card">
+            <div class="rev-top">
+              <span class="rev-stars">★★★★★</span>
+              <span class="rev-time">2 weeks ago</span>
+            </div>
+            <div class="rev-title">Ghost Pepper = dangerous</div>
+            <div class="rev-body">
+              <span class="rev-body-highlight">High-protein snacking has never tasted this good. I bring these to the gym and people stop me to ask where I got them. Ghost Pepper is fire — literally and figuratively. Can't stop buying.</span>
+            </div>
+            <hr class="rev-divider">
+            <div class="rev-author-row">
+              <span class="rev-author-name">Derek K.</span>
+              <span class="rev-verified">
+                Verified Buyer
+                <span class="rev-verified-badge">✓</span>
+              </span>
+            </div>
+            <div class="rev-product">
+              <div class="rev-product-thumb" style="background:linear-gradient(135deg,#4A1A6B,#120018);"></div>
+              <div>
+                <div class="rev-product-label">Reviewing</div>
+                <div class="rev-product-name">Ghost Pepper Wagyu Jerky</div>
+              </div>
+            </div>
+            <div class="rev-helpful">
+              Was this helpful?
+              <button class="helpful-btn">👍 0</button>
+              <button class="helpful-btn">👎 0</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 5 -->
+        <div class="swiper-slide">
+          <div class="rev-card">
+            <div class="rev-top">
+              <span class="rev-stars">★★★★★</span>
+              <span class="rev-time">3 weeks ago</span>
+            </div>
+            <div class="rev-title">Perfect gift, perfect jerky</div>
+            <div class="rev-body">
+              <span class="rev-body-highlight">Sent this as a gift to my brother who loves beef jerky. He called me the next day to ask where to order more. Safe to say the gift was a hit. Absolutely premium — worth every penny.</span>
+            </div>
+            <hr class="rev-divider">
+            <div class="rev-author-row">
+              <span class="rev-author-name">Ashley R.</span>
+              <span class="rev-verified">
+                Verified Buyer
+                <span class="rev-verified-badge">✓</span>
+              </span>
+            </div>
+            <div class="rev-product">
+              <div class="rev-product-thumb" style="background:linear-gradient(135deg,#C8962A,#3D2C08);"></div>
+              <div>
+                <div class="rev-product-label">Reviewing</div>
+                <div class="rev-product-name">Lemon Pepper Wagyu Jerky</div>
+              </div>
+            </div>
+            <div class="rev-helpful">
+              Was this helpful?
+              <button class="helpful-btn">👍 0</button>
+              <button class="helpful-btn">👎 0</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /swiper-wrapper -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div><!-- /swiper -->
+  </div><!-- /reviews-swiper-wrap -->
+
+  <!-- Press strip -->
+  <div class="press-strip">
+    <span class="press-strip-label">As Seen In</span>
+    <div class="press-strip-sep"></div>
+    <div class="press-strip-logos">
+      <span class="press-logo-item">Food &amp; Wine</span>
+      <span class="press-logo-item">Eater</span>
+      <span class="press-logo-item">Men's Health</span>
+      <span class="press-logo-item">Bon Appétit</span>
+      <span class="press-logo-item">Forbes</span>
+      <span class="press-logo-item">Thrillist</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- ════════════════════════════════════════
+     UGC / INSTAGRAM STRIP
+     ════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════
+     RECIPES
+     ════════════════════════════════════════ -->
+<section class="recipes" id="recipes">
+  <div class="container">
+
+    <h2 class="recipes-headline fu">Beyond the Bag.</h2>
+    <p class="recipes-sub fu">Wagyu jerky isn't just a snack — it's an ingredient. Here's how to use it.</p>
+
+    <div class="rec-grid">
+
+      <!-- Card 1 — Tacos -->
+      <div class="rec-card fu">
+        <img class="rec-img"
+             src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Screenshot2026-02-03at6.43.16PM.png?v=1772287789"
+             alt="Lemon Pepper Carne Seca" loading="lazy">
+        <div class="rec-scrim"></div>
+        <span class="rec-tag-pill">Fan Favorite</span>
+        <div class="rec-content">
+          <div class="rec-meta-row">
+            <span>⏱ 15 min</span>
+            <span>👤 Serves 2</span>
+          </div>
+          <h3 class="rec-title">Wagyu Jerky Street Tacos</h3>
+          <p class="rec-desc">Lemon Pepper jerky layered on warm corn tortillas with avocado crema, pickled red onion, and fresh cilantro.</p>
+          <a href="#" class="rec-arrow">
+            View Recipe
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2 — Breakfast -->
+      <div class="rec-card fu d1">
+        <img class="rec-img"
+             src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/CARNESHABUFOTOS-173.jpg?v=1772287756"
+             alt="Ghost Pepper Carne Seca" loading="lazy">
+        <div class="rec-scrim"></div>
+        <span class="rec-tag-pill">Breakfast</span>
+        <div class="rec-content">
+          <div class="rec-meta-row">
+            <span>⏱ 10 min</span>
+            <span>👤 Serves 1</span>
+          </div>
+          <h3 class="rec-title">Jerky &amp; Egg Skillet</h3>
+          <p class="rec-desc">Ghost Pepper jerky crumbled into a cast-iron skillet with eggs, roasted peppers, and fresh salsa verde.</p>
+          <a href="#" class="rec-arrow">
+            View Recipe
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 3 — Power Bowl -->
+      <div class="rec-card fu d2">
+        <img class="rec-img"
+             src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/Screenshot2026-02-03at7.13.57PM.png?v=1772287773"
+             alt="Spicy Lemon Pepper Carne Seca" loading="lazy">
+        <div class="rec-scrim"></div>
+        <span class="rec-tag-pill">High Protein</span>
+        <div class="rec-content">
+          <div class="rec-meta-row">
+            <span>⏱ 5 min</span>
+            <span>👤 Serves 1</span>
+          </div>
+          <h3 class="rec-title">Wagyu Power Bowl</h3>
+          <p class="rec-desc">Spicy Lemon Pepper jerky over mixed greens, roasted peppers, avocado, and chipotle lime dressing.</p>
+          <a href="#" class="rec-arrow">
+            View Recipe
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 4 — Charcuterie -->
+      <div class="rec-card fu d3">
+        <img class="rec-img"
+             src="https://cdn.shopify.com/s/files/1/0877/1777/3613/files/CARNESHABUFOTOS-281.jpg?v=1772287747"
+             alt="Carne Shabu Variety Pack" loading="lazy">
+        <div class="rec-scrim"></div>
+        <span class="rec-tag-pill">Entertaining</span>
+        <div class="rec-content">
+          <div class="rec-meta-row">
+            <span>⏱ 20 min</span>
+            <span>👤 Serves 6</span>
+          </div>
+          <h3 class="rec-title">Wagyu Jerky Board</h3>
+          <p class="rec-desc">All three jerky flavors styled with aged cheeses, house-made guac, jalapeños, and honey mustard.</p>
+          <a href="#" class="rec-arrow">
+            View Recipe
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /rec-grid -->
+
+    <div class="rec-explore fu">
+      <a href="#" class="btn btn-lg" style="background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);color:var(--white);border-radius:999px;letter-spacing:.07em;">
+        View All Recipes
+        <svg class="arr" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     SUBSCRIPTION
+     ════════════════════════════════════════ -->
+<section class="subscription" id="subscribe">
+
+  <!-- Left: full-bleed food image + text overlay -->
+  <div class="sub-media">
+    <img class="sub-media-img"
+         src="https://carneshabu.com/cdn/shop/files/CARNE_SHABU-264.jpg?v=1748645209&width=1800"
+         alt="Carne Shabu Premium Wagyu Carne Seca"
+         loading="lazy">
+    <div class="sub-media-overlay"></div>
+    <div class="sub-media-content fu">
+      <span class="sub-media-overline">Subscribe &amp; Save</span>
+      <h2 class="sub-media-title">Never Run Out<br><em>of Wagyu.</em></h2>
+      <p class="sub-media-desc">Save up to 15% on every order. Skip, pause, or cancel anytime — total flexibility, zero commitment.</p>
+      <ul class="sub-perks">
+        <li><span class="perk-dot">✓</span> Up to 15% off every order</li>
+        <li><span class="perk-dot">✓</span> Free shipping on all subscription orders</li>
+        <li><span class="perk-dot">✓</span> Skip, pause, or cancel anytime</li>
+        <li><span class="perk-dot">✓</span> First access to new flavors &amp; drops</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Right: cream bg + white widget -->
+  <div class="sub-widget-wrap">
+    <div class="sub-widget fu">
+      <div class="sw-badge">Most Popular Plan</div>
+      <div class="sw-title">Choose Your Delivery</div>
+      <div class="sw-sub">Customize how often you receive your Carne Shabu.</div>
+
+      <div class="sw-option sel" data-sub>
+        <div class="sw-opt-l">
+          <div class="radio-ring"></div>
+          <div>
+            <span class="sw-opt-lbl">Every 2 Weeks</span>
+            <span class="sw-opt-s">Most popular cadence</span>
+          </div>
+        </div>
+        <div>
+          <div class="sw-opt-price">$10.19<span style="font-size:.72rem;font-weight:400">/bag</span></div>
+          <span class="sw-save">Save 15%</span>
+        </div>
+      </div>
+
+      <div class="sw-option" data-sub>
+        <div class="sw-opt-l">
+          <div class="radio-ring"></div>
+          <div>
+            <span class="sw-opt-lbl">Monthly</span>
+            <span class="sw-opt-s">Perfect for light snackers</span>
+          </div>
+        </div>
+        <div>
+          <div class="sw-opt-price">$10.79<span style="font-size:.72rem;font-weight:400">/bag</span></div>
+          <span class="sw-save">Save 10%</span>
+        </div>
+      </div>
+
+      <div class="sw-option" data-sub>
+        <div class="sw-opt-l">
+          <div class="radio-ring"></div>
+          <div>
+            <span class="sw-opt-lbl">One-Time Purchase</span>
+            <span class="sw-opt-s">Try it first, no commitment</span>
+          </div>
+        </div>
+        <div>
+          <div class="sw-opt-price">$11.99</div>
+        </div>
+      </div>
+
+      <button class="sw-cta" data-add>Subscribe &amp; Save Now</button>
+
+      <div class="sw-guar">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Cancel anytime · No commitment · Free shipping always
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ════════════════════════════════════════
+     NEWSLETTER
+     ════════════════════════════════════════ -->
+<section class="newsletter">
+  <div class="container">
+    <div class="nl-inner">
+
+      <div class="nl-content fu">
+        <span class="overline">Join the Community</span>
+        <h2 class="h2">Get 15% Off<br>Your First Order.</h2>
+        <p>Early access to new flavors, exclusive recipes, and member-only deals. No spam. Just good beef content.</p>
+      </div>
+
+      <div class="fu d1">
+        <div class="nl-form">
+          <div class="nl-offer">
+            <div class="nl-offer-icon">🎁</div>
+            <div class="nl-offer-text">
+              <strong>Welcome offer:</strong> 15% off your first order when you join. Use code <strong>WAGYU15</strong> at checkout.
+            </div>
+          </div>
+          <div class="nl-row">
+            <input class="nl-input" type="email" placeholder="Your email address" aria-label="Email address">
+            <button class="nl-submit">Claim 15% Off</button>
+          </div>
+          <div class="nl-disclaimer">By signing up you agree to receive marketing emails. Unsubscribe anytime.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+
+    <!-- ── Newsletter CTA strip ── -->
+    <div class="footer-cta">
+      <div class="footer-cta-left">
+        <div class="footer-cta-overline">Join the List</div>
+        <h3 class="footer-cta-title">Get 15% off your<br><em>first order.</em></h3>
+      </div>
+      <div class="footer-cta-right">
+        <div class="ft-nl-row">
+          <input class="ft-nl-input" type="email" placeholder="Enter your email address">
+          <button class="ft-nl-btn">Subscribe</button>
+        </div>
+        <p class="ft-nl-note">No spam. Unsubscribe anytime. Your code arrives instantly.</p>
+      </div>
+    </div>
+
+    <!-- ── Main link columns ── -->
+    <div class="footer-main">
+
+      <!-- Brand -->
+      <div class="ft-brand">
+        <div class="ft-logo">
+          <img src="https://carneshabu.com/cdn/shop/files/cs_lablel_transparent_1.png?height=98&v=1771622482" alt="Carne Shabu" style="height:42px;width:auto;display:block;">
+          <span class="ft-logo-sub" style="display:block;margin-top:.5rem">Premium Wagyu Carne Seca</span>
+        </div>
+        <div class="ft-tagline">"Bien Rica. Bien Sabrosa.<br>Bien Buena."</div>
+
+        <!-- Social icons with real SVGs -->
+        <div class="ft-social">
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.99a8.16 8.16 0 0 0 4.78 1.52V7.06a4.85 4.85 0 0 1-1.01-.37z"/>
+            </svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="X / Twitter">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Payment icons -->
+        <div class="pay-icons">
+          <span class="pay-icon">VISA</span>
+          <span class="pay-icon">MC</span>
+          <span class="pay-icon">AMEX</span>
+          <span class="pay-icon">SHOP</span>
+          <span class="pay-icon">PAYPAL</span>
+        </div>
+      </div>
+
+      <!-- Shop -->
+      <div class="ft-col">
+        <h4>Shop</h4>
+        <ul class="ft-links">
+          <li><a href="#">All Products</a></li>
+          <li><a href="#">Lemon Pepper</a></li>
+          <li><a href="#">Spicy Lemon Pepper</a></li>
+          <li><a href="#">Ghost Pepper</a></li>
+          <li><a href="#">Variety Pack</a></li>
+          <li><a href="#">Merch</a></li>
+          <li><a href="#">Wholesale</a></li>
+        </ul>
+      </div>
+
+      <!-- Explore -->
+      <div class="ft-col">
+        <h4>Explore</h4>
+        <ul class="ft-links">
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">The Wagyu Difference</a></li>
+          <li><a href="#">Recipes</a></li>
+          <li><a href="#">Subscribe &amp; Save</a></li>
+          <li><a href="#">Wholesale Program</a></li>
+          <li><a href="#">Affiliates</a></li>
+        </ul>
+      </div>
+
+      <!-- Help + Contact -->
+      <div class="ft-col">
+        <h4>Help</h4>
+        <ul class="ft-links">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Track Order</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+        <h4 style="margin-top:2rem;">Contact</h4>
+        <ul class="ft-links">
+          <li><a href="mailto:hello@carneshabu.com">hello@carneshabu.com</a></li>
+        </ul>
+      </div>
+
+    </div><!-- /footer-main -->
+
+    <!-- ── Bottom bar ── -->
+    <div class="footer-bot">
+      <div class="ft-copy">© 2025 Carne Shabu. All rights reserved.</div>
+      <div class="ft-bot-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Accessibility</a>
+      </div>
+      <div class="ft-bot-right">
+        <span class="ft-bot-badge">100% Wagyu Beef</span>
+        <span class="ft-bot-badge">Made in the USA</span>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+     ════════════════════════════════════════ -->
+<script>
+// Scroll-triggered fade-ups
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fu').forEach(el => io.observe(el));
+
+// ── Swiper — Products slider ───────────────
+// (Swiper script loaded before closing </body>)
+
+// Nav shadow on scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// Product tabs
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+  });
+});
+
+// Subscription option toggle
+document.querySelectorAll('[data-sub]').forEach(opt => {
+  if (opt.classList.contains('sw-option')) {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.sw-option').forEach(o => o.classList.remove('sel'));
+      opt.classList.add('sel');
+    });
+  }
+});
+
+// Add to cart micro-interaction
+let cartN = 0;
+const cartBubble = document.getElementById('cartCount');
+document.querySelectorAll('[data-add]').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    const orig = this.innerHTML;
+    this.innerHTML = '✓ Added!';
+    this.style.background = '#2E9D4E';
+    this.style.color = 'white';
+    cartN++;
+    cartBubble.textContent = cartN;
+    setTimeout(() => {
+      this.innerHTML = orig;
+      this.style.background = '';
+      this.style.color = '';
+    }, 1600);
+  });
+});
+
+// Newsletter
+document.querySelector('.nl-submit').addEventListener('click', function() {
+  const inp = document.querySelector('.nl-input');
+  if (inp.value.includes('@')) {
+    this.textContent = '✓ You\'re in!';
+    this.style.background = '#2E9D4E';
+    inp.value = '';
+  }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+new Swiper('.reviews-swiper', {
+  slidesPerView: 'auto',
+  spaceBetween: 20,
+  grabCursor: true,
+  navigation: {
+    nextEl: '.reviews-swiper-wrap .swiper-button-next',
+    prevEl: '.reviews-swiper-wrap .swiper-button-prev',
+  },
+  breakpoints: {
+    0:   { slidesPerView: 1.1,  spaceBetween: 12 },
+    640: { slidesPerView: 1.6,  spaceBetween: 16 },
+    900: { slidesPerView: 2.2,  spaceBetween: 18 },
+    1200:{ slidesPerView: 3.1,  spaceBetween: 20 },
+  }
+});
+
+new Swiper('.products-swiper', {
+  slidesPerView: 'auto',
+  spaceBetween: 20,
+  grabCursor: true,
+  navigation: {
+    nextEl: '.prod-swiper-wrap .swiper-button-next',
+    prevEl: '.prod-swiper-wrap .swiper-button-prev',
+  },
+  breakpoints: {
+    0:    { slidesPerView: 1.2, spaceBetween: 12 },
+    480:  { slidesPerView: 2.1, spaceBetween: 14 },
+    768:  { slidesPerView: 3.1, spaceBetween: 16 },
+    1024: { slidesPerView: 4.2, spaceBetween: 18 },
+    1280: { slidesPerView: 5.1, spaceBetween: 20 },
+  }
+});
+</script>
+</body>
+</html>
